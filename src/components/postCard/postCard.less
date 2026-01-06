@@ -1,0 +1,25 @@
+@import "../../variable.less";
+
+.postCard {
+  composes: card from '../card/card.less';
+  composes: cardWithImg from '../card/card.less';
+  width: calc(100% - 16px);
+}
+
+.cardImage {
+  composes: CardImage from '../card/card.less';
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+.cardBottom {
+  composes: CardBottom from '../card/card.less';
+}

@@ -1,0 +1,19 @@
+@import "../../variable.less";
+
+.logoCard {
+  composes: card from '../card/card.less';
+  composes: cardWithImg from '../card/card.less';
+  width: calc(33.33% - 16px);
+
+  @media (max-width: @screen-sm-min) {
+    width: calc(100% - 16px);
+  }
+}
+
+.cardImage {
+  composes: CardImage from '../card/card.less';
+}
+
+.cardBottom {
+  composes: CardBottom from '../card/card.less';
+}
