@@ -5,7 +5,6 @@
 ## 功能特性
 
 - 🎨 KonoSuba 角色主题颜色（Aqua、Megumin、Darkness、Kazuma、Eris、Wiz、Yunyun 等）
-- 🌍 国际化支持（中文、英文、日文）
 - 📱 响应式设计
 - 🎯 Material Design 风格
 - ⚡ SPA 单页应用体验
@@ -176,7 +175,6 @@ src/
 ├── interfaces/        # TypeScript 接口
 ├── store/             # Redux store
 ├── lib/               # 工具函数
-├── locale/            # 国际化文件
 └── main.tsx           # 入口文件
 
 hexo/
