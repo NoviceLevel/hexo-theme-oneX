@@ -10,6 +10,7 @@ import Categories from '../categories';
 import Tag from '../tag';
 import Tags from '../tags';
 import Page from '../page';
+import NotFound from '../notFound';
 import Menu from '../menu';
 import Drawer from '../drawer';
 import Background from '../background';
@@ -58,6 +59,7 @@ export default function App() {
             <Route path="/tags" element={<Tags />} />
             <Route path="/tag/:name" element={<Tag />} />
             <Route path="/page/:title" element={<Page />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </HashRouter>
         <Footer />
