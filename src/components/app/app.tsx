@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { HashRouter, Routes, Route } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Tag from '../tag';
 import Tags from '../tags';
 import Page from '../page';
 import NotFound from '../notFound';
+import Loading from '../loading';
 import Menu from '../menu';
 import Drawer from '../drawer';
 import Background from '../background';
@@ -23,6 +24,12 @@ import styles from './app.less';
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [primaryColor, setPrimaryColor] = useState(() => localStorage.getItem('themeColor') || 'cyan');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleColorChange = (color: string) => {
     setPrimaryColor(color);
@@ -39,6 +46,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Loading show={loading} />
       <Header />
       <Background />
       <Menu onMenuClick={handleMenuToggle} />
