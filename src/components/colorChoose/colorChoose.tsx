@@ -9,7 +9,7 @@ interface ColorChooseProps {
 
 export default function ColorChoose({ primaryColor = 'cyan', onColorChange }: ColorChooseProps) {
   return (
-    <Box sx={{ display: 'flex', gap: 1, p: 2, justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, p: 2, justifyContent: 'center' }}>
       {Object.entries(colorPalettes).map(([colorName, palette]) => {
         const color = palette?.primary && typeof palette.primary === 'object'
           ? (palette.primary as { main: string }).main
@@ -21,15 +21,15 @@ export default function ColorChoose({ primaryColor = 'cyan', onColorChange }: Co
             key={colorName}
             onClick={() => onColorChange?.(colorName)}
             sx={{
-              width: 36,
-              height: 36,
+              width: 32,
+              height: 32,
               bgcolor: color,
               border: isSelected ? '2px solid #fff' : 'none',
               boxShadow: isSelected ? `0 0 0 2px ${color}` : 'none',
               '&:hover': { bgcolor: color, opacity: 0.8 },
             }}
           >
-            {isSelected && <CheckIcon sx={{ color: '#fff', fontSize: 18 }} />}
+            {isSelected && <CheckIcon sx={{ color: '#fff', fontSize: 16 }} />}
           </IconButton>
         );
       })}
