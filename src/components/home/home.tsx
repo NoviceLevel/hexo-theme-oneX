@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgress, Box, useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
@@ -7,13 +7,11 @@ import LogoCard from '../logoCard';
 import PostCard from '../postCard';
 import DisplayTrigger from '../displayTrigger';
 import { RootState, AppDispatch } from '../../store';
-import { fetchPosts } from '../../store/slices/postsSlice';
+import { fetchPosts, appendPosts } from '../../store/slices/postsSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
 import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { arrayRand } from '../../lib/random';
 import styles from './home.less';
-
-const PAGE_SIZE = 10;
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +19,8 @@ export default function Home() {
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
   const site = useSelector((state: RootState) => state.site.data);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+  const [currentPage, setCurrentPage] = useState(1);
+  const loadingRef = useRef(false);
 
   useEffect(() => {
     dispatch(setNavTitle(site?.title || ''));
@@ -42,13 +41,19 @@ export default function Home() {
   }, [themeConfig, dispatch]);
 
   const loadMore = useCallback(() => {
-    if (posts?.data && displayCount < posts.data.length) {
-      setDisplayCount(prev => Math.min(prev + PAGE_SIZE, posts.data?.length || 0));
-    }
-  }, [posts, displayCount]);
+    if (loadingRef.current || loading) return;
+    if (!posts || currentPage >= (posts.pageCount || 1)) return;
+    
+    loadingRef.current = true;
+    const nextPage = currentPage + 1;
+    dispatch(appendPosts({ index: nextPage })).then(() => {
+      setCurrentPage(nextPage);
+      loadingRef.current = false;
+    });
+  }, [posts, currentPage, loading, dispatch]);
 
-  const displayedPosts = posts?.data?.slice(0, displayCount) || [];
-  const hasMore = posts?.data && displayCount < posts.data.length;
+  const displayedPosts = posts?.data || [];
+  const hasMore = posts && currentPage < (posts.pageCount || 1);
 
   const leftPic = arrayRand(themeConfig?.img?.left_pic);
   const rightPic = arrayRand(themeConfig?.img?.right_pic);

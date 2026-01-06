@@ -21,6 +21,13 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const appendPosts = createAsyncThunk(
+  'posts/appendPosts',
+  async ({ index, href }: { index?: number; href?: string } = {}) => {
+    return await getPostsApi(index, href);
+  }
+);
+
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -38,6 +45,21 @@ const postsSlice = createSlice({
       .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch posts';
+      })
+      .addCase(appendPosts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(appendPosts.fulfilled, (state, action) => {
+        state.loading = false;
+        if (state.data && action.payload.data) {
+          state.data.data = [...(state.data.data || []), ...action.payload.data];
+          state.data.pageIndex = action.payload.pageIndex;
+        }
+      })
+      .addCase(appendPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to append posts';
       });
   },
 });
