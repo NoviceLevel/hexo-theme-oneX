@@ -37,26 +37,36 @@ export async function getPost(slug: string, href = API_BASE): Promise<Post> {
   return response.json();
 }
 
-export async function getTags(name?: string, href = API_BASE): Promise<Tag[] | Tag> {
-  const url = typeof name === 'undefined'
-    ? `${href}/tags.json`
-    : `${href}/tags/${name}.json`;
-  
-  const response = await fetch(url);
+export async function getTags(href = API_BASE): Promise<Tag[]> {
+  const response = await fetch(`${href}/tags.json`);
   if (!response.ok) {
     throw new Error(`Failed to fetch tags: ${response.statusText}`);
   }
   return response.json();
 }
 
-export async function getCategories(name?: string, href = API_BASE): Promise<Category[] | Category> {
-  const url = typeof name === 'undefined'
-    ? `${href}/categories.json`
-    : `${href}/categories/${name}.json`;
-  
-  const response = await fetch(url);
+export async function getTagPosts(name: string, href = API_BASE): Promise<Post[]> {
+  const response = await fetch(`${href}/tags/${encodeURIComponent(name)}.json`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch tag posts: ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.posts || [];
+}
+
+export async function getCategories(href = API_BASE): Promise<Category[]> {
+  const response = await fetch(`${href}/categories.json`);
   if (!response.ok) {
     throw new Error(`Failed to fetch categories: ${response.statusText}`);
   }
   return response.json();
+}
+
+export async function getCategoryPosts(name: string, href = API_BASE): Promise<Post[]> {
+  const response = await fetch(`${href}/categories/${encodeURIComponent(name)}.json`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch category posts: ${response.statusText}`);
+  }
+  const data = await response.json();
+  return data.posts || [];
 }

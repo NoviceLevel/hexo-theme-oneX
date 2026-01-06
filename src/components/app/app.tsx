@@ -5,6 +5,8 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from '../home/home';
 import Post from '../post';
 import Search from '../search';
+import Category from '../category';
+import Tag from '../tag';
 import Menu from '../menu';
 import Drawer from '../drawer';
 import Background from '../background';
@@ -46,6 +48,8 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/post/:slug" element={<Post />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/category/:name" element={<Category />} />
+            <Route path="/tag/:name" element={<Tag />} />
           </Routes>
         </HashRouter>
         <Footer />
