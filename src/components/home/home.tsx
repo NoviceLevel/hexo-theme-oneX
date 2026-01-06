@@ -73,6 +73,8 @@ export default function Home() {
           excerpt={post.excerpt}
           link={post.slug}
           date={post.date}
+          author={site?.author || '作者'}
+          avatar={avatar}
           categories={post.categories?.map(c => ({ name: c.name || '', path: c.path || '' }))}
         />
       ))}
