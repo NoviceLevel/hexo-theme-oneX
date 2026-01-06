@@ -1,4 +1,4 @@
-import { useEffect, useRef, ReactNode } from 'react';
+import { useEffect, useRef, ReactNode, useCallback } from 'react';
 
 interface DisplayTriggerProps {
   onDisplay: () => void;
@@ -8,7 +8,11 @@ interface DisplayTriggerProps {
 
 export default function DisplayTrigger({ onDisplay, children, className }: DisplayTriggerProps) {
   const triggerRef = useRef<HTMLDivElement>(null);
-  const hasTriggeredRef = useRef(false);
+  const onDisplayRef = useRef(onDisplay);
+  
+  useEffect(() => {
+    onDisplayRef.current = onDisplay;
+  }, [onDisplay]);
 
   useEffect(() => {
     const element = triggerRef.current;
@@ -16,11 +20,8 @@ export default function DisplayTrigger({ onDisplay, children, className }: Displ
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasTriggeredRef.current) {
-          onDisplay();
-          hasTriggeredRef.current = true;
-        } else if (!entry.isIntersecting) {
-          hasTriggeredRef.current = false;
+        if (entry.isIntersecting) {
+          onDisplayRef.current();
         }
       },
       { threshold: 0 }
@@ -28,7 +29,7 @@ export default function DisplayTrigger({ onDisplay, children, className }: Displ
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [onDisplay]);
+  }, []);
 
   return <div ref={triggerRef} className={className}>{children}</div>;
 }

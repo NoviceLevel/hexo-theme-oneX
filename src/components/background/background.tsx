@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
@@ -9,14 +9,16 @@ export default function Background() {
   const theme = useTheme();
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
   const [scrollY, setScrollY] = useState(0);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
+    if (!isMobile) return;
     const handleScroll = () => {
       setScrollY(window.scrollY / 2);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   const bgImage = themeConfig?.img?.left_pic;
 
@@ -25,7 +27,7 @@ export default function Background() {
       className={styles.background}
       sx={{
         backgroundColor: theme.palette.primary.main,
-        transform: `translateY(${scrollY}px)`,
+        transform: isMobile ? `translateY(${scrollY}px)` : 'none',
       }}
     >
       {bgImage && (

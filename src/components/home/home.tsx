@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CircularProgress, Box, useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, Box, useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
 import WelcomeCard from '../welcomeCard/welcomeCard';
 import LogoCard from '../logoCard';
@@ -16,8 +16,7 @@ export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts, loading } = useSelector((state: RootState) => state.posts);
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
   useEffect(() => {

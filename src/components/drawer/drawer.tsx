@@ -1,4 +1,4 @@
-import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box } from '@mui/material';
+import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, useMediaQuery } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
@@ -15,6 +15,8 @@ interface DrawerProps {
 }
 
 export default function Drawer({ open, onClose, primaryColor, onColorChange }: DrawerProps) {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const drawerWidth = isMobile ? 250 : 300;
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Search', icon: <SearchIcon />, path: '/search' },
@@ -25,7 +27,7 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
 
   return (
     <MuiDrawer anchor="left" open={open} onClose={onClose}>
-      <Box sx={{ width: 250 }}>
+      <Box sx={{ width: drawerWidth }}>
         <SideHeader />
         <List>
           {menuItems.map((item) => (

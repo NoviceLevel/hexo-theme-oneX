@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { CircularProgress, Box, useMediaQuery, useTheme } from '@mui/material';
+import { CircularProgress, Box, useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
 import PostCard from '../postCard';
 import Toc from '../toc';
@@ -13,8 +13,7 @@ export default function Post() {
   const { slug } = useParams<{ slug: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const postData = useSelector((state: RootState) => slug ? state.post.posts[slug] : undefined);
-  const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
+  const isDesktop = useMediaQuery('(min-width: 992px)');
 
   useEffect(() => {
     if (slug && !postData?.content && !postData?.loading) {

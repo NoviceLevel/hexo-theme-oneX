@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Paper, Box, Typography, Link, InputAdornment } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -14,17 +14,35 @@ function removeHTMLTag(str: string) {
   return str.replace(/<\/?[^>]*>/g, '').replace(/[ | ]*\n/g, '\n').replace(/&nbsp;/ig, '');
 }
 
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debouncedValue;
+}
+
 export default function Search() {
   const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 300);
   const [results, setResults] = useState<Post[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts } = useSelector((state: RootState) => state.posts);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!posts) {
       dispatch(fetchPosts({}));
     }
   }, [posts, dispatch]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      inputRef.current?.focus();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const index = useMemo(() => {
     if (!posts?.data?.length) return null;
@@ -43,14 +61,13 @@ export default function Search() {
     });
   }, [posts]);
 
-  const handleSearch = useCallback((value: string) => {
-    setQuery(value);
-    if (!index || !value.trim() || !posts?.data?.length) {
+  useEffect(() => {
+    if (!index || !debouncedQuery.trim() || !posts?.data?.length) {
       setResults([]);
       return;
     }
     try {
-      const searchTerm = value.trim().split(/\s+/).map(term => `${term}* ${term}`).join(' ');
+      const searchTerm = debouncedQuery.trim().split(/\s+/).map(term => `${term}* ${term}`).join(' ');
       const searchResults = index.search(searchTerm);
       const postsData = posts.data;
       const matched = searchResults
@@ -61,7 +78,7 @@ export default function Search() {
     } catch {
       setResults([]);
     }
-  }, [index, posts]);
+  }, [debouncedQuery, index, posts]);
 
   const theme = useTheme();
 
@@ -76,7 +93,8 @@ export default function Search() {
           fullWidth
           placeholder="在异世界寻找..."
           value={query}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setQuery(e.target.value)}
+          inputRef={inputRef}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">

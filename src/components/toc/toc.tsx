@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Typography } from '@mui/material';
 import styles from './toc.less';
 
@@ -35,30 +35,41 @@ export default function Toc({ content }: TocProps) {
   }, [content]);
 
   useEffect(() => {
+    if (headings.length === 0) return;
+    
+    let ticking = false;
     const handleScroll = () => {
-      const headingElements = headings.map(h => document.getElementById(h.id)).filter(Boolean);
-      for (let i = headingElements.length - 1; i >= 0; i--) {
-        const el = headingElements[i];
-        if (el && el.getBoundingClientRect().top <= 100) {
-          setActiveId(headings[i].id);
-          return;
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const headingElements = headings.map(h => document.getElementById(h.id)).filter(Boolean);
+        for (let i = headingElements.length - 1; i >= 0; i--) {
+          const el = headingElements[i];
+          if (el && el.getBoundingClientRect().top <= 100) {
+            setActiveId(headings[i].id);
+            ticking = false;
+            return;
+          }
         }
-      }
-      if (headings.length > 0) setActiveId(headings[0].id);
+        if (headings.length > 0) setActiveId(headings[0].id);
+        ticking = false;
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, [headings]);
 
-  if (headings.length === 0) return null;
-
-  const handleClick = (id: string) => {
+  const handleClick = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const top = el.getBoundingClientRect().top + window.scrollY - 64;
+      window.scrollTo({ top, behavior: 'smooth' });
     }
-  };
+  }, []);
+
+  if (headings.length === 0) return null;
 
   return (
     <Box className={styles.toc}>
