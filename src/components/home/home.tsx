@@ -23,8 +23,9 @@ export default function Home() {
       <WelcomeCard />
       <LogoCard title="KonoSuba" />
       {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-          <CircularProgress />
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 4, gap: 2 }}>
+          <CircularProgress size={24} />
+          <span>阿克娅正在努力中...</span>
         </Box>
       )}
       {posts?.data?.map((post) => (

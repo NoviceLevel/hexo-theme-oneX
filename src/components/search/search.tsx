@@ -49,7 +49,8 @@ export default function Search() {
       return;
     }
     try {
-      const searchResults = index.search(value);
+      const searchTerm = value.trim().split(/\s+/).map(term => `${term}* ${term}`).join(' ');
+      const searchResults = index.search(searchTerm);
       const postsData = posts.data;
       const matched = searchResults
         .slice(0, 20)
@@ -66,7 +67,7 @@ export default function Search() {
       <Paper className={styles.searchBar} elevation={2}>
         <TextField
           fullWidth
-          placeholder="搜索文章..."
+          placeholder="在异世界寻找..."
           value={query}
           onChange={(e) => handleSearch(e.target.value)}
           InputProps={{
@@ -97,7 +98,7 @@ export default function Search() {
           ))
         ) : query && (
           <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>
-            没有找到相关文章
+            Explosion！...什么都没炸出来
           </Typography>
         )}
       </Grid>

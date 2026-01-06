@@ -26,8 +26,9 @@ export default function Post() {
 
   if (postData?.loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', pt: 10 }}>
-        <CircularProgress />
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 10, gap: 2 }}>
+        <CircularProgress size={24} />
+        <span>惠惠正在咏唱...</span>
       </Box>
     );
   }
