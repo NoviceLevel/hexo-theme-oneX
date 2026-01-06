@@ -1,16 +1,18 @@
-import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import ArticleIcon from '@mui/icons-material/Article';
 import CategoryIcon from '@mui/icons-material/Category';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ArchiveIcon from '@mui/icons-material/Archive';
+import ColorChoose from '../colorChoose';
 
 interface DrawerProps {
   open: boolean;
   onClose: () => void;
+  primaryColor?: string;
+  onColorChange?: (color: string) => void;
 }
 
-export default function Drawer({ open, onClose }: DrawerProps) {
+export default function Drawer({ open, onClose, primaryColor, onColorChange }: DrawerProps) {
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
     { text: 'Archives', icon: <ArchiveIcon />, path: '/archives' },
@@ -29,6 +31,8 @@ export default function Drawer({ open, onClose }: DrawerProps) {
             </ListItemButton>
           </ListItem>
         ))}
+        <Divider />
+        <ColorChoose primaryColor={primaryColor} onColorChange={onColorChange} />
       </List>
     </MuiDrawer>
   );
