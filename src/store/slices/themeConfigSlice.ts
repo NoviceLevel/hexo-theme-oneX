@@ -1,21 +1,39 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+interface DrawerItem {
+  title: string;
+  type: string;
+  href?: string;
+  name?: string;
+  icon?: string;
+  nested?: DrawerItem[];
+}
+
 interface ThemeConfig {
   img: {
-    avatar: string;
-    left_pic: string;
-    right_pic: string;
-    post_thumbnail: string;
-    drawerHeaderBg: string;
+    avatar: string | string[];
+    left_pic: string | string[];
+    right_pic: string | string[];
+    post_thumbnail: string | string[];
+    drawerHeaderBg: string | string[];
   };
   uiux: {
     slogan: string;
     defaultPrimaryColor: string;
     defaultAccentColor: string;
   };
+  comment?: {
+    disqus?: {
+      shortName?: string;
+    };
+  };
+  drawer?: DrawerItem[];
+  Drawer?: DrawerItem[];
+  footer?: [string, string | string[]];
+  colorPicker?: boolean;
 }
 
-interface ThemeConfigState {
+export interface ThemeConfigState {
   config: ThemeConfig | null;
   loading: boolean;
 }
@@ -42,9 +60,9 @@ const initialState: ThemeConfigState = {
 
 export const fetchThemeConfig = createAsyncThunk('themeConfig/fetch', async () => {
   try {
-    const response = await fetch('/api/site.json');
+    const response = await fetch('/api/theme.json');
     const data = await response.json();
-    return data.theme || defaultConfig;
+    return data || defaultConfig;
   } catch {
     return defaultConfig;
   }
@@ -60,7 +78,16 @@ const themeConfigSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchThemeConfig.fulfilled, (state, action) => {
-        state.config = { ...defaultConfig, ...action.payload };
+        const payload = action.payload;
+        state.config = {
+          img: payload.img || defaultConfig.img,
+          uiux: payload.uiux || defaultConfig.uiux,
+          comment: payload.comment,
+          drawer: payload.drawer,
+          Drawer: payload.Drawer,
+          footer: payload.footer,
+          colorPicker: payload.colorPicker,
+        };
         state.loading = false;
       })
       .addCase(fetchThemeConfig.rejected, (state) => {

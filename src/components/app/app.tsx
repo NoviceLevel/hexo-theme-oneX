@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Home from '../home/home';
 import Post from '../post';
 import Search from '../search';
@@ -14,11 +15,13 @@ import Background from '../background';
 import Footer from '../footer';
 import BackToTop from '../backToTop';
 import { createThemePalette } from '../../lib/themes';
+import { RootState } from '../../store';
 import styles from './app.less';
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [primaryColor, setPrimaryColor] = useState(() => localStorage.getItem('themeColor') || 'cyan');
+  const site = useSelector((state: RootState) => state.site.data);
 
   const handleColorChange = (color: string) => {
     setPrimaryColor(color);
@@ -36,7 +39,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Background />
-      <Menu title="KonoSuba" onMenuClick={handleMenuToggle} />
+      <Menu title={site?.title || 'KonoSuba'} onMenuClick={handleMenuToggle} />
       <Drawer
         open={sidebarOpen}
         onClose={handleDrawerClose}

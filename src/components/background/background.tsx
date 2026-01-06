@@ -3,11 +3,13 @@ import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import { arrayRand } from '../../lib/random';
 import styles from './background.less';
 
 export default function Background() {
   const theme = useTheme();
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
+  const backgroundImages = useSelector((state: RootState) => state.background.images);
   const [scrollY, setScrollY] = useState(0);
   const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -20,7 +22,9 @@ export default function Background() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
-  const bgImage = themeConfig?.img?.left_pic;
+  const currentBgImage = backgroundImages.length > 0 
+    ? backgroundImages[backgroundImages.length - 1].url 
+    : arrayRand(themeConfig?.img?.left_pic);
 
   return (
     <Box
@@ -30,10 +34,10 @@ export default function Background() {
         transform: isMobile ? `translateY(${scrollY}px)` : 'none',
       }}
     >
-      {bgImage && (
+      {currentBgImage && (
         <Box
           className={styles.bgImg}
-          sx={{ backgroundImage: `url(${bgImage})` }}
+          sx={{ backgroundImage: `url(${currentBgImage})` }}
         />
       )}
     </Box>
