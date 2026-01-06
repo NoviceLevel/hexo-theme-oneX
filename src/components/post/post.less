@@ -1,12 +1,24 @@
+@import "../../variable.less";
+
 .postPage {
   display: flex;
-  max-width: 1400px;
-  margin: 0 auto;
-  gap: 24px;
+  width: 100%;
+}
+
+.postContent {
+  width: calc(75% - 16px);
 }
 
 .tocWrapper {
-  width: 250px;
-  flex-shrink: 0;
-  padding-top: 80px;
+  width: calc(25% - 16px);
+  margin-top: 80px;
+}
+
+@media (max-width: @screen-sm-min) {
+  .postContent {
+    width: 100%;
+  }
+  .tocWrapper {
+    display: none;
+  }
 }

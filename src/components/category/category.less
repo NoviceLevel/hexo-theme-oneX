@@ -1,13 +1,32 @@
+@import "../../variable.less";
+
 .category {
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-top: -83px;
+  background: #fafafa;
+  position: relative;
+  z-index: 1;
 }
 
 .categoryNameBox {
   font-weight: 300;
-  padding: 20px;
+  padding: 64px 20px 0;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   .title {
     font-weight: 300;
-    font-size: 60px;
+    font-size: 100px;
     margin: 0;
+  }
+}
+
+@media (max-width: @screen-sm-min) {
+  .categoryNameBox {
+    .title {
+      font-size: 60px;
+    }
   }
 }

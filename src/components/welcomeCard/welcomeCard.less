@@ -1,9 +1,8 @@
 @import "../../variable.less";
-@import "../card/card.less";
 
 .WelcomeCard {
-  margin: 8px;
-  overflow: hidden;
+  composes: card from '../card/card.less';
+  composes: cardWithImg from '../card/card.less';
   width: calc(66.66% - 16px);
 }
 
@@ -14,16 +13,9 @@
 }
 
 .CardImage {
-  position: relative;
-  min-height: 300px;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
+  composes: CardImage from '../card/card.less';
 }
 
 .CardBottom {
-  height: 74px;
-  display: flex;
-  align-items: center;
+  composes: CardBottom from '../card/card.less';
 }

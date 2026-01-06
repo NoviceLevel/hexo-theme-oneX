@@ -34,20 +34,20 @@ export default function Post() {
   }
 
   return (
-    <Box className={styles.postPage}>
-      <Grid>
+    <Grid className={styles.postPage}>
+      <div className={styles.postContent}>
         <PostCard
           title={postData?.title}
           content={postData?.content}
           cover={postData?.cover}
           date={postData?.date}
         />
-      </Grid>
+      </div>
       {isDesktop && postData?.content && (
-        <Box className={styles.tocWrapper}>
+        <div className={styles.tocWrapper}>
           <Toc content={postData.content} />
-        </Box>
+        </div>
       )}
-    </Box>
+    </Grid>
   );
 }
