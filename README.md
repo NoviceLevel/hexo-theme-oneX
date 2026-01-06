@@ -1,16 +1,18 @@
 # hexo-theme-oneX
 
-基于 [hexo-theme-one](https://github.com/EYHN/hexo-theme-one) 重构的 Hexo 主题。
+基于 [hexo-theme-one](https://github.com/EYHN/hexo-theme-one) 使用现代技术栈重构的 Hexo 主题。
 
 ## 功能特性
 
-- 🎨 主题颜色切换（支持 Cyan、Pink、Red）
+- 🎨 主题颜色切换（Cyan、Pink、Red）
 - 🌍 国际化支持（中文、英文、日文）
 - 📱 响应式设计
 - 🎯 Material Design 风格
 - ⚡ SPA 单页应用体验
 - 📝 文章卡片展示
-- 🔍 滚动渐变导航栏
+- 🔍 全文搜索（Lunr.js）
+- �  文章目录（TOC）
+- 🔝 回到顶部按钮
 - 💾 主题设置本地持久化
 
 ## 技术栈
@@ -38,6 +40,7 @@ git clone https://github.com/NoviceLevel/hexo-theme-oneX.git themes/oneX
 cd themes/oneX
 pnpm install
 pnpm build
+node scripts/build-hexo.js
 ```
 
 ### 3. 修改 Hexo 配置
@@ -48,9 +51,10 @@ pnpm build
 theme: oneX
 ```
 
-### 4. 启动博客
+### 4. 生成并启动博客
 
 ```bash
+hexo generate
 hexo server
 ```
 
@@ -60,46 +64,46 @@ hexo server
 # 安装依赖
 pnpm install
 
-# 开发模式
+# 开发模式（热更新）
 pnpm start
 
 # 构建主题
 pnpm build
-```
 
-## 主题配置
-
-在博客根目录创建 `_config.oneX.yml`：
-
-```yaml
-# 头像
-avatar: /images/avatar.png
-
-# 标语
-slogan: Your slogan here
-
-# 背景图片
-background: /images/bg.jpg
+# 构建并复制到 hexo 目录
+pnpm build && node scripts/build-hexo.js
 ```
 
 ## 项目结构
 
-```
+```text
 src/
-├── components/     # React 组件
-│   ├── app/        # 应用入口
-│   ├── menu/       # 导航栏
-│   ├── drawer/     # 侧边栏
-│   ├── home/       # 首页
-│   ├── post/       # 文章详情
-│   ├── postCard/   # 文章卡片
-│   ├── logoCard/   # Logo 卡片
-│   └── colorChoose/# 颜色选择器
-├── interfaces/     # TypeScript 接口
-├── store/          # Redux store
-├── lib/            # 工具函数
-├── locale/         # 国际化文件
-└── main.tsx        # 入口文件
+├── components/        # React 组件
+│   ├── app/           # 应用入口
+│   ├── menu/          # 导航栏
+│   ├── drawer/        # 侧边栏
+│   ├── home/          # 首页
+│   ├── post/          # 文章详情
+│   ├── search/        # 搜索页面
+│   ├── postCard/      # 文章卡片
+│   ├── logoCard/      # Logo 卡片
+│   ├── welcomeCard/   # 欢迎卡片
+│   ├── toc/           # 文章目录
+│   ├── footer/        # 页脚
+│   ├── background/    # 背景
+│   ├── backToTop/     # 回到顶部
+│   ├── sideHeader/    # 侧边栏头部
+│   └── colorChoose/   # 颜色选择器
+├── interfaces/        # TypeScript 接口
+├── store/             # Redux store
+├── lib/               # 工具函数
+├── locale/            # 国际化文件
+└── main.tsx           # 入口文件
+
+hexo/
+├── layout/            # Hexo 布局模板
+├── scripts/           # Hexo 脚本（API 生成器）
+└── source/            # 静态资源
 ```
 
 ## License
