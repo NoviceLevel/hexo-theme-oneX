@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Grid from '../grid/grid';
@@ -10,7 +10,8 @@ import { getCategories, getCategoryPosts } from '../../lib/hexoApi';
 import { Category as CategoryType } from '../../interfaces/category';
 import { Post } from '../../interfaces/post';
 import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
-import { AppDispatch } from '../../store';
+import { RootState, AppDispatch } from '../../store';
+import { arrayRand } from '../../lib/random';
 import styles from './category.less';
 
 export default function Category() {
@@ -20,6 +21,9 @@ export default function Category() {
   const theme = useTheme();
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
+  const site = useSelector((state: RootState) => state.site.data);
+  const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
+  const avatar = arrayRand(themeConfig?.img?.avatar);
 
   useEffect(() => {
     dispatch(setNavTitle(name || '分类'));
@@ -67,6 +71,9 @@ export default function Category() {
             excerpt={post.excerpt}
             link={post.slug}
             date={post.date}
+            author={site?.author || '作者'}
+            avatar={avatar}
+            categories={post.categories?.map(c => ({ name: c.name || '', path: c.path || '' }))}
           />
         ))}
       </Grid>

@@ -119,7 +119,12 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
   const showColorPicker = themeConfig?.colorPicker !== false;
 
   return (
-    <MuiDrawer anchor="left" open={open} onClose={onClose}>
+    <MuiDrawer
+      anchor="left"
+      open={open}
+      onClose={onClose}
+      disableScrollLock
+    >
       <Box sx={{ width: drawerWidth }}>
         <SideHeader
           avatar={avatar}

@@ -51,7 +51,7 @@ export async function getTagPosts(name: string, href = API_BASE): Promise<Post[]
     throw new Error(`Failed to fetch tag posts: ${response.statusText}`);
   }
   const data = await response.json();
-  return data.posts || [];
+  return data.postlist || data.posts || [];
 }
 
 export async function getCategories(href = API_BASE): Promise<Category[]> {
@@ -68,5 +68,5 @@ export async function getCategoryPosts(name: string, href = API_BASE): Promise<P
     throw new Error(`Failed to fetch category posts: ${response.statusText}`);
   }
   const data = await response.json();
-  return data.posts || [];
+  return data.postlist || data.posts || [];
 }

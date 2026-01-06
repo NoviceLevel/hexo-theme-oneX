@@ -20,6 +20,7 @@ interface PostCardProps {
   author?: string;
   avatar?: string;
   categories?: { name: string; path: string }[];
+  tags?: { name: string; path: string }[];
   content?: string;
   link?: string;
   date?: string;
@@ -37,6 +38,7 @@ export default function PostCard({
   author = '作者',
   avatar = '',
   categories = [],
+  tags = [],
   content,
   link,
   date,
@@ -95,21 +97,42 @@ export default function PostCard({
           <CardHeaderAvatar title={author} avatar={avatar} />
           <Box sx={{ flexGrow: 1 }} />
           <CardContent sx={{ py: 0 }}>
+            {tags.map((tag, index) => (
+              <span key={tag.name}>
+                <Link href={`#/tag/${encodeURIComponent(tag.name)}`} underline="hover">{tag.name}</Link>
+                {index < tags.length - 1 && ' '}
+              </span>
+            ))}
+            {tags.length > 0 && categories.length > 0 && ' | '}
             {categories.map((cat, index) => (
               <span key={cat.name}>
-                <Link href={`#${cat.path}`} underline="hover">{cat.name}</Link>
-                {index < categories.length - 1 && ' | '}
+                <Link href={`#/category/${encodeURIComponent(cat.name)}`} underline="hover">{cat.name}</Link>
+                {index < categories.length - 1 && ' '}
               </span>
             ))}
           </CardContent>
           <IconButton onClick={handleShareClick}><ShareIcon /></IconButton>
-          <Menu anchorEl={shareAnchor} open={Boolean(shareAnchor)} onClose={handleClose}>
+          <Menu
+            anchorEl={shareAnchor}
+            open={Boolean(shareAnchor)}
+            onClose={handleClose}
+            disableScrollLock
+            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          >
             <MenuItem onClick={handleClose}>分享到微博</MenuItem>
             <MenuItem onClick={handleClose}>复制链接</MenuItem>
           </Menu>
           <IconButton onClick={handleMenuClick}><MoreVertIcon /></IconButton>
-          <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={handleClose}>
-            <MenuItem onClick={handleClose}>收藏</MenuItem>
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={handleClose}
+            disableScrollLock
+            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          >
+            <MenuItem onClick={handleClose}>RSS</MenuItem>
           </Menu>
         </div>
       </div>

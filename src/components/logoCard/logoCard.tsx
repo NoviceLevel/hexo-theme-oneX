@@ -81,6 +81,7 @@ export default function LogoCard({ title, imageUrl }: LogoCardProps) {
           anchorEl={menuAnchors[index]}
           open={Boolean(menuAnchors[index])}
           onClose={() => handleMenuClose(index)}
+          disableScrollLock
           anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         >
