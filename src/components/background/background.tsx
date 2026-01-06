@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
@@ -10,13 +10,21 @@ export default function Background() {
   const theme = useTheme();
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
   const backgroundImages = useSelector((state: RootState) => state.background.images);
-  const [scrollY, setScrollY] = useState(0);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || !bgRef.current) return;
+    let ticking = false;
     const handleScroll = () => {
-      setScrollY(window.scrollY / 2);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (bgRef.current) {
+          bgRef.current.style.transform = `translate3d(0, ${window.scrollY * 0.5}px, 0)`;
+        }
+        ticking = false;
+      });
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -28,11 +36,9 @@ export default function Background() {
 
   return (
     <Box
+      ref={bgRef}
       className={styles.background}
-      sx={{
-        backgroundColor: theme.palette.primary.main,
-        transform: isMobile ? `translateY(${scrollY}px)` : 'none',
-      }}
+      sx={{ backgroundColor: theme.palette.primary.main }}
     >
       {currentBgImage && (
         <Box
