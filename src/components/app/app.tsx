@@ -1,9 +1,8 @@
 import { ThemeProvider, createTheme, Theme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from '../home/home';
-import './app.less';
+import styles from './app.less';
 
 interface AppProps {
   muiTheme?: Theme;
@@ -15,12 +14,12 @@ export default function App({ muiTheme }: AppProps) {
   return (
     <ThemeProvider theme={muiTheme || defaultTheme}>
       <CssBaseline />
-      <main>
-        <BrowserRouter>
+      <main id={styles.main}>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </main>
     </ThemeProvider>
   );

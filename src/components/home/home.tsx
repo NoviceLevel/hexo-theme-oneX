@@ -1,12 +1,10 @@
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import Grid from '../grid/grid';
+import WelcomeCard from '../welcomeCard/welcomeCard';
 
 export default function Home() {
   return (
-    <Container>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Welcome to Hexo Theme
-      </Typography>
-    </Container>
+    <Grid>
+      <WelcomeCard />
+    </Grid>
   );
 }

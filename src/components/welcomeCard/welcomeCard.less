@@ -1,0 +1,29 @@
+@import "../../variable.less";
+@import "../card/card.less";
+
+.WelcomeCard {
+  margin: 8px;
+  overflow: hidden;
+  width: calc(66.66% - 16px);
+}
+
+@media (max-width: @screen-sm-min) {
+  .WelcomeCard {
+    width: calc(100% - 16px);
+  }
+}
+
+.CardImage {
+  position: relative;
+  min-height: 300px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+.CardBottom {
+  height: 74px;
+  display: flex;
+  align-items: center;
+}
