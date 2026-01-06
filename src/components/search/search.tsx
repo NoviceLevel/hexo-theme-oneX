@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Paper, Box, Typography, Link, InputAdornment } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import lunr from 'lunr';
 import Grid from '../grid/grid';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts } from '../../store/slices/postsSlice';
@@ -22,6 +21,31 @@ function useDebounce<T>(value: T, delay: number): T {
     return () => clearTimeout(timer);
   }, [value, delay]);
   return debouncedValue;
+}
+
+function searchPosts(posts: Post[], query: string): Post[] {
+  if (!query.trim()) return [];
+  const searchTerms = query.toLowerCase().trim().split(/\s+/);
+  
+  return posts
+    .map(post => {
+      const title = (post.title || '').toLowerCase();
+      const excerpt = removeHTMLTag(post.excerpt || '').toLowerCase();
+      const content = removeHTMLTag(post.content || '').toLowerCase();
+      
+      let score = 0;
+      for (const term of searchTerms) {
+        if (title.includes(term)) score += 10;
+        if (excerpt.includes(term)) score += 3;
+        if (content.includes(term)) score += 1;
+      }
+      
+      return { post, score };
+    })
+    .filter(item => item.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 20)
+    .map(item => item.post);
 }
 
 export default function Search() {
@@ -51,41 +75,14 @@ export default function Search() {
     return () => clearTimeout(timer);
   }, []);
 
-  const index = useMemo(() => {
-    if (!posts?.data?.length) return null;
-    const postsData = posts.data;
-    return lunr(function () {
-      this.field('title', { boost: 10 });
-      this.field('excerpt', { boost: 3 });
-      this.ref('slug');
-      postsData.forEach((post) => {
-        this.add({
-          title: post.title || '',
-          excerpt: removeHTMLTag(post.excerpt || ''),
-          slug: post.slug || '',
-        });
-      });
-    });
-  }, [posts]);
-
   useEffect(() => {
-    if (!index || !debouncedQuery.trim() || !posts?.data?.length) {
+    if (!posts?.data?.length || !debouncedQuery.trim()) {
       setResults([]);
       return;
     }
-    try {
-      const searchTerm = debouncedQuery.trim().split(/\s+/).map(term => `${term}* ${term}`).join(' ');
-      const searchResults = index.search(searchTerm);
-      const postsData = posts.data;
-      const matched = searchResults
-        .slice(0, 20)
-        .map((r) => postsData.find((p) => p.slug === r.ref))
-        .filter(Boolean) as Post[];
-      setResults(matched);
-    } catch {
-      setResults([]);
-    }
-  }, [debouncedQuery, index, posts]);
+    const matched = searchPosts(posts.data, debouncedQuery);
+    setResults(matched);
+  }, [debouncedQuery, posts]);
 
   const theme = useTheme();
 
