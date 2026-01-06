@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface NavState {
+export interface NavState {
   title: string;
   backButton: boolean;
   fullModel: boolean;

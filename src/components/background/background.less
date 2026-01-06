@@ -6,11 +6,15 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 350px;
+  height: 270px;
   transition: background-color 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   overflow: hidden;
-  will-change: transform;
-  backface-visibility: hidden;
+}
+
+@media (min-width: @screen-sm-min) {
+  .background {
+    height: 350px;
+  }
 }
 
 .bgImg {
@@ -24,13 +28,4 @@
   background-size: cover;
   opacity: 0;
   transition: opacity 450ms;
-}
-
-@media (max-width: @screen-sm-min) {
-  .background {
-    height: 270px;
-  }
-  .bgImg {
-    opacity: 1;
-  }
 }
