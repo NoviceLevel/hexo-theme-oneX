@@ -7,6 +7,7 @@ import Post from '../post';
 import Search from '../search';
 import Category from '../category';
 import Tag from '../tag';
+import Page from '../page';
 import Menu from '../menu';
 import Drawer from '../drawer';
 import Background from '../background';
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/category/:name" element={<Category />} />
             <Route path="/tag/:name" element={<Tag />} />
+            <Route path="/page/:title" element={<Page />} />
           </Routes>
         </HashRouter>
         <Footer />

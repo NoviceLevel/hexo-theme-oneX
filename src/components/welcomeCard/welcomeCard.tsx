@@ -1,10 +1,41 @@
 import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import CardHeaderAvatar from '../cardHeaderAvatar/cardHeaderAvatar';
 import styles from './welcomeCard.less';
 
-export default function WelcomeCard() {
+interface WelcomeCardProps {
+  title?: string;
+  subtitle?: string;
+  coverImg?: string;
+  avatarImg?: string;
+  username?: string;
+  isMobile?: boolean;
+}
+
+export default function WelcomeCard({
+  title = 'Konosuba',
+  subtitle = '为美好的世界献上祝福！',
+  coverImg = 'https://www.loliapi.com/acg/',
+  avatarImg = 'https://www.loliapi.com/acg/',
+  username = '惠惠',
+  isMobile = false,
+}: WelcomeCardProps) {
+  if (isMobile) {
+    return (
+      <div className={styles.phone}>
+        <img src={avatarImg} className={styles.phoneAvatar} alt={username} />
+        <Card className={styles.PhoneWelcomeCard}>
+          <CardContent sx={{ textAlign: 'center' }}>
+            <Typography variant="h6">{title}</Typography>
+            <Typography variant="body2" color="text.secondary">{subtitle}</Typography>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <Card className={styles.WelcomeCard}>
       <div>
@@ -12,7 +43,7 @@ export default function WelcomeCard() {
           <div>
             <div
               className={styles.CardImage}
-              style={{ backgroundImage: 'url(https://www.loliapi.com/acg/)' }}
+              style={{ backgroundImage: `url(${coverImg})` }}
             >
               <Box
                 sx={{
@@ -25,17 +56,14 @@ export default function WelcomeCard() {
                   p: 2,
                 }}
               >
-                <Typography variant="h5">Konosuba</Typography>
-                <Typography variant="body2">为美好的世界献上祝福！</Typography>
+                <Typography variant="h5">{title}</Typography>
+                <Typography variant="body2">{subtitle}</Typography>
               </Box>
             </div>
           </div>
         </div>
         <div className={styles.CardBottom}>
-          <CardHeaderAvatar
-            title="惠惠"
-            avatar="https://www.loliapi.com/acg/"
-          />
+          <CardHeaderAvatar title={username} avatar={avatarImg} />
         </div>
       </div>
     </Card>

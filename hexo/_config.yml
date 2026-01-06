@@ -1,1 +1,36 @@
 # Theme Configuration
+
+# 图片配置
+img:
+  avatar: "https://www.loliapi.com/acg/"
+  left_pic: "https://www.loliapi.com/acg/"
+  right_pic: "https://www.loliapi.com/acg/"
+  post_thumbnail: "https://www.loliapi.com/acg/"
+  drawerHeaderBg: "https://www.loliapi.com/acg/"
+
+# UI/UX 配置
+uiux:
+  slogan: "为美好的世界献上祝福！"
+  defaultPrimaryColor: "cyan"
+  defaultAccentColor: "pink"
+
+# 侧边栏配置
+drawer:
+  - title: 首页
+    type: sitelink
+    href: /
+    icon: home
+  - title: hr
+    type: hr
+  - title: 搜索
+    type: sitelink
+    href: /search
+    icon: search
+  - title: 分类
+    type: sitelink
+    href: /categories
+    icon: folder
+  - title: 标签
+    type: sitelink
+    href: /tags
+    icon: label

@@ -3,9 +3,10 @@ import { useEffect, useRef, ReactNode } from 'react';
 interface DisplayTriggerProps {
   onDisplay: () => void;
   children?: ReactNode;
+  className?: string;
 }
 
-export default function DisplayTrigger({ onDisplay, children }: DisplayTriggerProps) {
+export default function DisplayTrigger({ onDisplay, children, className }: DisplayTriggerProps) {
   const triggerRef = useRef<HTMLDivElement>(null);
   const hasTriggeredRef = useRef(false);
 
@@ -29,5 +30,5 @@ export default function DisplayTrigger({ onDisplay, children }: DisplayTriggerPr
     return () => observer.disconnect();
   }, [onDisplay]);
 
-  return <div ref={triggerRef}>{children}</div>;
+  return <div ref={triggerRef} className={className}>{children}</div>;
 }

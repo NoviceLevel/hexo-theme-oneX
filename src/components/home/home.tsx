@@ -1,16 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CircularProgress, Box } from '@mui/material';
+import { CircularProgress, Box, useMediaQuery, useTheme } from '@mui/material';
 import Grid from '../grid/grid';
 import WelcomeCard from '../welcomeCard/welcomeCard';
 import LogoCard from '../logoCard';
 import PostCard from '../postCard';
+import DisplayTrigger from '../displayTrigger';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts } from '../../store/slices/postsSlice';
+import styles from './home.less';
+
+const PAGE_SIZE = 10;
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts, loading } = useSelector((state: RootState) => state.posts);
+  const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     if (!posts) {
@@ -18,17 +26,27 @@ export default function Home() {
     }
   }, [posts, dispatch]);
 
+  const loadMore = useCallback(() => {
+    if (posts?.data && displayCount < posts.data.length) {
+      setDisplayCount(prev => Math.min(prev + PAGE_SIZE, posts.data?.length || 0));
+    }
+  }, [posts, displayCount]);
+
+  const displayedPosts = posts?.data?.slice(0, displayCount) || [];
+  const hasMore = posts?.data && displayCount < posts.data.length;
+
   return (
     <Grid>
-      <WelcomeCard />
-      <LogoCard title="KonoSuba" />
-      {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 4, gap: 2 }}>
-          <CircularProgress size={24} />
-          <span>阿克娅正在努力中...</span>
-        </Box>
-      )}
-      {posts?.data?.map((post) => (
+      <WelcomeCard
+        title="Konosuba"
+        subtitle={themeConfig?.uiux?.slogan}
+        coverImg={themeConfig?.img?.left_pic}
+        avatarImg={themeConfig?.img?.avatar}
+        username="惠惠"
+        isMobile={isMobile}
+      />
+      {!isMobile && <LogoCard title="KonoSuba" imageUrl={themeConfig?.img?.right_pic} />}
+      {displayedPosts.map((post) => (
         <PostCard
           key={post.slug}
           title={post.title}
@@ -38,6 +56,14 @@ export default function Home() {
           categories={post.categories?.map(c => ({ name: c.name || '', path: c.path || '' }))}
         />
       ))}
+      <DisplayTrigger onDisplay={loadMore} className={styles.Loading}>
+        {(loading || hasMore) && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 4, gap: 2, width: '100%' }}>
+            <CircularProgress size={24} />
+            <span>阿克娅正在努力中...</span>
+          </Box>
+        )}
+      </DisplayTrigger>
     </Grid>
   );
 }

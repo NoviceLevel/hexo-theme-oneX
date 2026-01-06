@@ -3,6 +3,7 @@ import themeReducer from './slices/themeSlice';
 import postsReducer from './slices/postsSlice';
 import siteReducer from './slices/siteSlice';
 import postReducer from './slices/postSlice';
+import themeConfigReducer from './slices/themeConfigSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     posts: postsReducer,
     site: siteReducer,
     post: postReducer,
+    themeConfig: themeConfigReducer,
   },
 });
 
