@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import Home from '../home/home';
 import Post from '../post';
+import Search from '../search';
 import Menu from '../menu';
 import Drawer from '../drawer';
 import { createThemePalette } from '../../lib/themes';
@@ -40,6 +41,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/post/:slug" element={<Post />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </HashRouter>
       </main>

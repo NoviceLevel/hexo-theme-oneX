@@ -16,6 +16,7 @@
   "author": "EYHN",
   "license": "GPL-2.0",
   "devDependencies": {
+    "@types/lunr": "^2.3.7",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@types/seedrandom": "^3.0.8",
@@ -38,6 +39,7 @@
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.15.0",
     "@reduxjs/toolkit": "^2.11.2",
+    "lunr": "^2.3.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.0.0",

@@ -3,6 +3,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CategoryIcon from '@mui/icons-material/Category';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import ArchiveIcon from '@mui/icons-material/Archive';
+import SearchIcon from '@mui/icons-material/Search';
 import ColorChoose from '../colorChoose';
 
 interface DrawerProps {
@@ -15,6 +16,7 @@ interface DrawerProps {
 export default function Drawer({ open, onClose, primaryColor, onColorChange }: DrawerProps) {
   const menuItems = [
     { text: 'Home', icon: <HomeIcon />, path: '/' },
+    { text: 'Search', icon: <SearchIcon />, path: '/search' },
     { text: 'Archives', icon: <ArchiveIcon />, path: '/archives' },
     { text: 'Categories', icon: <CategoryIcon />, path: '/categories' },
     { text: 'Tags', icon: <LocalOfferIcon />, path: '/tags' },
