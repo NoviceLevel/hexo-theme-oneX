@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Paper, Box, Typography, Link, InputAdornment } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import lunr from 'lunr';
 import Grid from '../grid/grid';
@@ -62,9 +63,15 @@ export default function Search() {
     }
   }, [index, posts]);
 
+  const theme = useTheme();
+
   return (
     <Box className={styles.searchPage}>
-      <Paper className={styles.searchBar} elevation={2}>
+      <Paper 
+        className={styles.searchBar} 
+        elevation={2}
+        sx={{ backgroundColor: theme.palette.primary.main }}
+      >
         <TextField
           fullWidth
           placeholder="在异世界寻找..."
@@ -73,15 +80,21 @@ export default function Search() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon />
+                <SearchIcon sx={{ color: '#fff' }} />
               </InputAdornment>
             ),
           }}
           variant="standard"
-          sx={{ '& input': { fontSize: '1.5rem', py: 2 } }}
+          sx={{ 
+            '& input': { fontSize: '2rem', py: 2, color: '#fff' },
+            '& .MuiInput-underline:before': { borderBottomColor: 'rgba(255,255,255,0.5)' },
+            '& .MuiInput-underline:hover:before': { borderBottomColor: '#fff' },
+            '& .MuiInput-underline:after': { borderBottomColor: '#fff' },
+            '& input::placeholder': { color: 'rgba(255,255,255,0.7)', opacity: 1 },
+          }}
         />
       </Paper>
-      <Grid>
+      <Grid className={styles.postsList}>
         {results.length > 0 ? (
           results.map((post) => (
             <Paper key={post.slug} className={styles.resultItem} elevation={1}>

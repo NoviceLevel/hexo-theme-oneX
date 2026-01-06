@@ -7,6 +7,9 @@ import Post from '../post';
 import Search from '../search';
 import Menu from '../menu';
 import Drawer from '../drawer';
+import Background from '../background';
+import Footer from '../footer';
+import BackToTop from '../backToTop';
 import { createThemePalette } from '../../lib/themes';
 import styles from './app.less';
 
@@ -29,6 +32,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Background />
       <Menu title="KonoSuba" onMenuClick={handleMenuToggle} />
       <Drawer
         open={sidebarOpen}
@@ -44,7 +48,9 @@ export default function App() {
             <Route path="/search" element={<Search />} />
           </Routes>
         </HashRouter>
+        <Footer />
       </main>
+      <BackToTop />
     </ThemeProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { List, ListItem, ListItemButton, ListItemText, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import styles from './toc.less';
 
 export interface TocItem {
@@ -61,28 +61,22 @@ export default function Toc({ content }: TocProps) {
   };
 
   return (
-    <Paper className={styles.toc} elevation={1}>
-      <Typography variant="subtitle2" sx={{ p: 1, fontWeight: 'bold' }}>目录</Typography>
-      <List dense disablePadding>
-        {headings.map((item) => (
-          <ListItem key={item.id} disablePadding>
-            <ListItemButton
-              selected={activeId === item.id}
-              onClick={() => handleClick(item.id)}
-              sx={{ pl: item.level }}
-            >
-              <ListItemText 
-                primary={item.text} 
-                primaryTypographyProps={{ 
-                  variant: 'body2',
-                  noWrap: true,
-                  fontSize: item.level <= 2 ? '0.875rem' : '0.75rem',
-                }} 
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Paper>
+    <Box className={styles.toc}>
+      <Typography variant="subtitle2" sx={{ p: '3px 20px', fontWeight: 'bold', color: '#333' }}>目录</Typography>
+      {headings.map((item) => (
+        <Box 
+          key={item.id} 
+          className={activeId === item.id ? styles.active : ''}
+          sx={{ pl: (item.level - 1) * 1.5 }}
+        >
+          <a
+            className={styles.tocLink}
+            onClick={() => handleClick(item.id)}
+          >
+            {item.text}
+          </a>
+        </Box>
+      ))}
+    </Box>
   );
 }

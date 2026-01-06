@@ -1,0 +1,31 @@
+import { Box, Link, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import styles from './footer.less';
+
+export default function Footer() {
+  const theme = useTheme();
+
+  return (
+    <Box className={styles.footer}>
+      <Box
+        className={styles.footerCanve}
+        sx={{
+          backgroundColor: theme.palette.primary.main,
+          color: '#fff',
+        }}
+      >
+        <Box className={styles.grid}>
+          <Typography component="p" className={styles.s1}>
+            <span>Powered by </span>
+            <Link href="https://hexo.io" target="_blank" color="inherit" underline="hover">Hexo</Link>
+            <br />
+            <span>Theme - </span>
+            <Link href="https://github.com/NoviceLevel/hexo-theme-oneX" target="_blank" color="inherit" underline="hover">oneX</Link>
+          </Typography>
+          <Typography component="span" className={styles.s2}>KonoSuba © 2024 - 2026</Typography>
+          <Typography component="p" className={styles.s3}>Explosion!</Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+}
