@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Site } from '../../interfaces/site';
 import { getSite as getSiteApi } from '../../lib/hexoApi';
 
-interface SiteState {
+export interface SiteState {
   data: Site | null;
   loading: boolean;
   error: string | null;

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Posts } from '../../interfaces/posts';
 import { getPosts as getPostsApi } from '../../lib/hexoApi';
 
-interface PostsState {
+export interface PostsState {
   data: Posts | null;
   loading: boolean;
   error: string | null;

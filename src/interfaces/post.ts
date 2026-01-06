@@ -10,6 +10,7 @@ export interface Post {
   path?: string;
   excerpt?: string;
   content?: string;
+  cover?: string;
   categories?: Array<CategoriesItem>;
   tags?: Array<TagsItem>;
 }
