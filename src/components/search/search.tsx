@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { TextField, Paper, Box, Typography, Link, InputAdornment } from '@mui/material';
+import { TextField, Paper, Box, Typography, Link, InputAdornment, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import Grid from '../grid/grid';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useNavigate } from 'react-router-dom';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts } from '../../store/slices/postsSlice';
 import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { Post } from '../../interfaces';
+import Footer from '../footer';
 import styles from './search.less';
 
 function removeHTMLTag(str: string) {
@@ -55,6 +57,7 @@ export default function Search() {
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts } = useSelector((state: RootState) => state.posts);
   const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(setNavTitle('搜索'));
@@ -86,8 +89,24 @@ export default function Search() {
 
   const theme = useTheme();
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <Box className={styles.searchPage}>
+      <IconButton 
+        onClick={handleBack}
+        sx={{ 
+          position: 'absolute', 
+          top: 12, 
+          left: 12, 
+          color: '#fff',
+          zIndex: 10
+        }}
+      >
+        <ArrowBackIcon />
+      </IconButton>
       <Paper 
         className={styles.searchBar} 
         elevation={2}
@@ -116,27 +135,32 @@ export default function Search() {
           }}
         />
       </Paper>
-      <Grid className={styles.postsList}>
-        {results.length > 0 ? (
-          results.map((post) => (
-            <Paper key={post.slug} className={styles.resultItem} elevation={1}>
-              <Typography variant="h6">
-                <Link href={`#/post/${post.slug}`} underline="hover">{post.title}</Link>
-              </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {post.date && new Date(post.date).toLocaleDateString()}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                {removeHTMLTag(post.excerpt || '').slice(0, 150)}...
-              </Typography>
-            </Paper>
-          ))
-        ) : query && (
-          <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>
-            Explosion！...什么都没炸出来
-          </Typography>
-        )}
-      </Grid>
+      <Box className={styles.postsList}>
+        <Box className={styles.resultsWrapper}>
+          {results.length > 0 ? (
+            results.map((post) => (
+              <Paper key={post.slug} className={styles.resultItem} elevation={1}>
+                <Typography variant="h6">
+                  <Link href={`#/post/${post.slug}`} underline="hover">{post.title}</Link>
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {post.date && new Date(post.date).toLocaleDateString()}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  {removeHTMLTag(post.excerpt || '').slice(0, 150)}...
+                </Typography>
+              </Paper>
+            ))
+          ) : query && (
+            <Typography color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>
+              Explosion！...什么都没炸出来
+            </Typography>
+          )}
+        </Box>
+        <Box className={styles.footerWrapper}>
+          <Footer />
+        </Box>
+      </Box>
     </Box>
   );
 }

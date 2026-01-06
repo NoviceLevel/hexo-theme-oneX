@@ -3,43 +3,40 @@
 @keyframes fadeIn {
   0% {
     opacity: 0.01;
-    transform: translateY(100px);
-  }
-  30% {
-    opacity: 1;
   }
   100% {
-    transform: translateY(0);
+    opacity: 1;
   }
 }
 
 .searchPage {
-  animation: fadeIn 0.6s ease-out;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-top: -156px;
-  min-height: calc(100vh - 64px);
+  animation: fadeIn 0.3s ease-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: #fafafa;
-  position: relative;
-  z-index: 1;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .searchBar {
   width: 100%;
   border-radius: 0;
-  height: 300px;
-  padding-top: 64px;
+  flex-shrink: 0;
+  padding: 80px 40px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-left: calc(50vw - 450px + 40px);
-  padding-right: calc(50vw - 450px + 40px);
   box-sizing: border-box;
 }
 
 @media (max-width: @screen-sm-min) {
   .searchBar {
-    padding: 0 20px;
+    padding: 70px 20px 30px;
   }
 }
 
@@ -57,8 +54,22 @@
 }
 
 .postsList {
-  min-height: 500px;
-  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.resultsWrapper {
+  flex: 1;
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.footerWrapper {
+  margin-top: auto;
 }
