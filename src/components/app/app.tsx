@@ -45,7 +45,7 @@ export default function App() {
         primaryColor={primaryColor}
         onColorChange={handleColorChange}
       />
-      <main id={styles.main}>
+      <main className={styles.main}>
         <HashRouter>
           <Routes>
             <Route path="/" element={<Home />} />
