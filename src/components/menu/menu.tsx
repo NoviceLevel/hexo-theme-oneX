@@ -1,20 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import { hexToRgba } from '../../lib/utils';
+import { RootState } from '../../store';
 import styles from './menu.less';
 
 interface MenuProps {
-  title?: string;
   onMenuClick?: () => void;
 }
 
-export default function Menu({ title = '', onMenuClick }: MenuProps) {
+export default function Menu({ onMenuClick }: MenuProps) {
   const [opacity, setOpacity] = useState(0);
   const [hidden, setHidden] = useState(false);
   const lastScrollTop = useRef(0);
@@ -22,7 +24,17 @@ export default function Menu({ title = '', onMenuClick }: MenuProps) {
   const headerHeight = 228;
   const appBarHeight = 64;
 
+  const navTitle = useSelector((state: RootState) => state.nav.title);
+  const backButton = useSelector((state: RootState) => state.nav.backButton);
+  const fullModel = useSelector((state: RootState) => state.nav.fullModel);
+
   useEffect(() => {
+    if (fullModel) {
+      setOpacity(1);
+      setHidden(false);
+      return;
+    }
+
     let ticking = false;
     const handleScroll = () => {
       if (ticking) return;
@@ -53,13 +65,25 @@ export default function Menu({ title = '', onMenuClick }: MenuProps) {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [fullModel]);
 
-  const backgroundColor = hexToRgba(theme.palette.primary.main, opacity);
-  const shadowOpacity = 0.117647 * opacity;
+  const backgroundColor = hexToRgba(theme.palette.primary.main, fullModel ? 1 : opacity);
+  const shadowOpacity = 0.117647 * (fullModel ? 1 : opacity);
 
   const handleSearchClick = () => {
     window.location.hash = '/search';
+  };
+
+  const handleBackClick = () => {
+    window.history.back();
+  };
+
+  const handleLeftClick = () => {
+    if (backButton) {
+      handleBackClick();
+    } else {
+      onMenuClick?.();
+    }
   };
 
   return (
@@ -77,23 +101,23 @@ export default function Menu({ title = '', onMenuClick }: MenuProps) {
           <IconButton
             size="large"
             edge="start"
-            aria-label="menu"
+            aria-label={backButton ? 'back' : 'menu'}
             sx={{ mr: 2, color: '#fff' }}
-            onClick={onMenuClick}
+            onClick={handleLeftClick}
           >
-            <MenuIcon />
+            {backButton ? <ArrowBackIcon /> : <MenuIcon />}
           </IconButton>
           <Typography 
             variant="h6" 
             component="div" 
             sx={{ 
               flexGrow: 1,
-              opacity: opacity > 0.5 ? 1 : 0,
+              opacity: (fullModel || opacity > 0.5) ? 1 : 0,
               transition: 'opacity 0.3s ease',
               color: '#fff',
             }}
           >
-            {title}
+            {navTitle}
           </Typography>
           <IconButton sx={{ color: '#fff' }} onClick={handleSearchClick}>
             <SearchIcon />

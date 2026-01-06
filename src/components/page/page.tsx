@@ -9,6 +9,7 @@ import Comment from '../comment';
 import { RootState, AppDispatch } from '../../store';
 import { loadPost } from '../../store/slices/postSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
+import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { arrayRand } from '../../lib/random';
 import styles from './page.less';
 
@@ -19,6 +20,12 @@ export default function Page() {
   const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
   const site = useSelector((state: RootState) => state.site.data);
   const isDesktop = useMediaQuery('(min-width: 992px)');
+
+  useEffect(() => {
+    dispatch(setNavTitle(pageData?.title || title || ''));
+    dispatch(setBackButton(true));
+    dispatch(setFullModel(true));
+  }, [dispatch, pageData?.title, title]);
 
   useEffect(() => {
     if (title && !pageData?.content && !pageData?.loading) {

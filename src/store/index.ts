@@ -5,6 +5,7 @@ import siteReducer from './slices/siteSlice';
 import postReducer from './slices/postSlice';
 import themeConfigReducer from './slices/themeConfigSlice';
 import backgroundReducer from './slices/backgroundSlice';
+import navReducer from './slices/navSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     post: postReducer,
     themeConfig: themeConfigReducer,
     background: backgroundReducer,
+    nav: navReducer,
   },
 });
 

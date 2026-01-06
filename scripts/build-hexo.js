@@ -36,6 +36,14 @@ if (fs.existsSync(indexHtml)) {
   // 替换 title 为 Hexo 变量
   content = content.replace(/<title>.*?<\/title>/, '<title><%= config.title %></title>');
   
+  // 添加 viewport meta 标签（如果不存在）
+  if (!content.includes('viewport')) {
+    content = content.replace(
+      '<meta charset="UTF-8"/>',
+      '<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>'
+    );
+  }
+  
   // 写入 layout.ejs (主布局模板)
   fs.writeFileSync(path.join(hexoDir, 'layout', 'layout.ejs'), content);
   console.log('Created: hexo/layout/layout.ejs');

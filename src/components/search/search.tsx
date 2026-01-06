@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Paper, Box, Typography, Link, InputAdornment } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -7,6 +7,7 @@ import lunr from 'lunr';
 import Grid from '../grid/grid';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts } from '../../store/slices/postsSlice';
+import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { Post } from '../../interfaces';
 import styles from './search.less';
 
@@ -30,6 +31,12 @@ export default function Search() {
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts } = useSelector((state: RootState) => state.posts);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    dispatch(setNavTitle('搜索'));
+    dispatch(setBackButton(true));
+    dispatch(setFullModel(true));
+  }, [dispatch]);
 
   useEffect(() => {
     if (!posts) {

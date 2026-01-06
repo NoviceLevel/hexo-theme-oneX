@@ -1,15 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-interface DrawerItem {
+export interface MenuItemI {
   title: string;
   type: string;
   href?: string;
   name?: string;
-  icon?: string;
-  nested?: DrawerItem[];
+  icon?: string | { type: string; date: string; style?: Record<string, string>; viewBox?: string };
+  nested?: MenuItemI[];
+  items?: MenuItemI[];
+  initiallyOpen?: boolean;
+}
+
+export interface BarMenu {
+  icon: string;
+  items: MenuItemI[];
 }
 
 interface ThemeConfig {
+  head?: {
+    favicon?: string | string[];
+  };
   img: {
     avatar: string | string[];
     left_pic: string | string[];
@@ -18,7 +28,7 @@ interface ThemeConfig {
     drawerHeaderBg: string | string[];
   };
   uiux: {
-    slogan: string;
+    slogan: string | string[];
     defaultPrimaryColor: string;
     defaultAccentColor: string;
   };
@@ -27,10 +37,11 @@ interface ThemeConfig {
       shortName?: string;
     };
   };
-  drawer?: DrawerItem[];
-  Drawer?: DrawerItem[];
+  drawer?: MenuItemI[];
+  Drawer?: MenuItemI[];
   footer?: [string, string | string[]];
   colorPicker?: boolean;
+  homeToolBar?: BarMenu[];
 }
 
 export interface ThemeConfigState {
@@ -39,6 +50,9 @@ export interface ThemeConfigState {
 }
 
 const defaultConfig: ThemeConfig = {
+  head: {
+    favicon: '',
+  },
   img: {
     avatar: 'https://www.loliapi.com/acg/',
     left_pic: 'https://www.loliapi.com/acg/',
@@ -51,6 +65,7 @@ const defaultConfig: ThemeConfig = {
     defaultPrimaryColor: 'cyan',
     defaultAccentColor: 'pink',
   },
+  homeToolBar: [],
 };
 
 const initialState: ThemeConfigState = {
@@ -80,6 +95,7 @@ const themeConfigSlice = createSlice({
       .addCase(fetchThemeConfig.fulfilled, (state, action) => {
         const payload = action.payload;
         state.config = {
+          head: payload.head,
           img: payload.img || defaultConfig.img,
           uiux: payload.uiux || defaultConfig.uiux,
           comment: payload.comment,
@@ -87,6 +103,7 @@ const themeConfigSlice = createSlice({
           Drawer: payload.Drawer,
           footer: payload.footer,
           colorPicker: payload.colorPicker,
+          homeToolBar: payload.homeToolBar || [],
         };
         state.loading = false;
       })

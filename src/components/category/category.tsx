@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Grid from '../grid/grid';
@@ -8,14 +9,23 @@ import Tabs from '../tabs';
 import { getCategories, getCategoryPosts } from '../../lib/hexoApi';
 import { Category as CategoryType } from '../../interfaces/category';
 import { Post } from '../../interfaces/post';
+import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
+import { AppDispatch } from '../../store';
 import styles from './category.less';
 
 export default function Category() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const theme = useTheme();
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    dispatch(setNavTitle(name || '分类'));
+    dispatch(setBackButton(true));
+    dispatch(setFullModel(true));
+  }, [dispatch, name]);
 
   useEffect(() => {
     getCategories().then(setCategories);

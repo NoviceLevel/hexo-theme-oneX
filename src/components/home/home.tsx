@@ -9,6 +9,7 @@ import DisplayTrigger from '../displayTrigger';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts } from '../../store/slices/postsSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
+import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { arrayRand } from '../../lib/random';
 import styles from './home.less';
 
@@ -21,6 +22,12 @@ export default function Home() {
   const site = useSelector((state: RootState) => state.site.data);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
+
+  useEffect(() => {
+    dispatch(setNavTitle(site?.title || ''));
+    dispatch(setBackButton(false));
+    dispatch(setFullModel(false));
+  }, [dispatch, site?.title]);
 
   useEffect(() => {
     if (!posts) {
@@ -46,12 +53,13 @@ export default function Home() {
   const leftPic = arrayRand(themeConfig?.img?.left_pic);
   const rightPic = arrayRand(themeConfig?.img?.right_pic);
   const avatar = arrayRand(themeConfig?.img?.avatar);
+  const slogan = arrayRand(themeConfig?.uiux?.slogan);
 
   return (
     <Grid>
       <WelcomeCard
         title={site?.title || 'Konosuba'}
-        subtitle={themeConfig?.uiux?.slogan}
+        subtitle={slogan}
         coverImg={leftPic}
         avatarImg={avatar}
         username={site?.author || '惠惠'}
