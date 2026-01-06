@@ -6,7 +6,9 @@ import Home from '../home/home';
 import Post from '../post';
 import Search from '../search';
 import Category from '../category';
+import Categories from '../categories';
 import Tag from '../tag';
+import Tags from '../tags';
 import Page from '../page';
 import Menu from '../menu';
 import Drawer from '../drawer';
@@ -51,7 +53,9 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/post/:slug" element={<Post />} />
             <Route path="/search" element={<Search />} />
+            <Route path="/categories" element={<Categories />} />
             <Route path="/category/:name" element={<Category />} />
+            <Route path="/tags" element={<Tags />} />
             <Route path="/tag/:name" element={<Tag />} />
             <Route path="/page/:title" element={<Page />} />
           </Routes>
