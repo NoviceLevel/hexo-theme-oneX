@@ -60,27 +60,6 @@ if (fs.existsSync(indexHtml)) {
   });
 }
 
-// 复制整个 hexo 主题到博客目录
-const blogThemeDir = path.resolve(__dirname, '../../blog/themes/oneX');
-
-// 递归复制目录
-function copyDir(src, dest) {
-  if (!fs.existsSync(dest)) {
-    fs.mkdirSync(dest, { recursive: true });
-  }
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
-    if (entry.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
-    }
-  }
-}
-
-copyDir(hexoDir, blogThemeDir);
-console.log(`\nCopied theme to: ${blogThemeDir}`);
-
+// hexo 目录已经是完整的主题，无需额外复制
 console.log('\nHexo theme build complete!');
+console.log('Theme output: hexo/');
