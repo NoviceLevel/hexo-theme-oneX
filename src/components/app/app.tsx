@@ -18,6 +18,7 @@ import Background from '../background';
 import Footer from '../footer';
 import BackToTop from '../backToTop';
 import Header from '../header';
+import Scrollbar from '../scrollbar';
 import { createThemePalette } from '../../lib/themes';
 import styles from './app.less';
 
@@ -73,6 +74,7 @@ export default function App() {
         <Footer />
       </main>
       <BackToTop />
+      <Scrollbar />
     </ThemeProvider>
   );
 }
