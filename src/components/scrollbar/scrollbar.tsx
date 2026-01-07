@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { useTheme } from '@mui/material/styles';
 import styles from './scrollbar.less';
 
 export default function Scrollbar() {
+  const theme = useTheme();
   const [scrollPercent, setScrollPercent] = useState(0);
   const [thumbHeight, setThumbHeight] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -9,6 +11,9 @@ export default function Scrollbar() {
   const dragStartY = useRef(0);
   const dragStartScroll = useRef(0);
   const hideTimer = useRef<number | null>(null);
+
+  const primaryColor = theme.palette.primary.main;
+  const primaryDark = theme.palette.primary.dark;
 
   const updateScroll = useCallback(() => {
     const scrollTop = window.scrollY;
@@ -76,7 +81,11 @@ export default function Scrollbar() {
     <div className={`${styles.scrollbar} ${isVisible || isDragging ? styles.visible : ''}`} onClick={handleTrackClick}>
       <div
         className={styles.thumb}
-        style={{ height: `${thumbHeight}%`, top: `${thumbTop}%` }}
+        style={{
+          height: `${thumbHeight}%`,
+          top: `${thumbTop}%`,
+          background: `linear-gradient(180deg, ${primaryColor}, ${primaryDark})`,
+        }}
         onMouseDown={handleThumbMouseDown}
       />
     </div>

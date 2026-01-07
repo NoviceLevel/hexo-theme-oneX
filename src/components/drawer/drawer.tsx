@@ -2,11 +2,11 @@ import { useState, useMemo } from 'react';
 import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, useMediaQuery, Collapse, SvgIcon } from '@mui/material';
 import { useSelector } from 'react-redux';
 import HomeIcon from '@mui/icons-material/Home';
-import CategoryIcon from '@mui/icons-material/Category';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import StarIcon from '@mui/icons-material/Star';
 import ArchiveIcon from '@mui/icons-material/Archive';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ContactPhoneIcon from '@mui/icons-material/ContactPhone';
 import RssFeedIcon from '@mui/icons-material/RssFeed';
@@ -28,11 +28,11 @@ interface DrawerProps {
 
 const iconMap: Record<string, React.ReactNode> = {
   home: <HomeIcon />,
-  search: <SearchIcon />,
-  folder: <CategoryIcon />,
-  label: <LocalOfferIcon />,
+  search: <AutoFixHighIcon />,
+  folder: <WhatshotIcon />,
+  label: <StarIcon />,
   archive: <ArchiveIcon />,
-  account_circle: <AccountCircleIcon />,
+  account_circle: <EmojiPeopleIcon />,
   mail_outline: <MailOutlineIcon />,
   contact_phone: <ContactPhoneIcon />,
   rss_feed: <RssFeedIcon />,

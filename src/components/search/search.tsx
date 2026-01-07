@@ -129,7 +129,7 @@ export default function Search() {
           sx={{ 
             '& input': { fontSize: '2rem', py: 2, color: '#fff' },
             '& .MuiInput-underline:before': { borderBottomColor: 'rgba(255,255,255,0.5)' },
-            '& .MuiInput-underline:hover:before': { borderBottomColor: '#fff' },
+            '& .MuiInput-underline:hover:before': { borderBottomColor: '#fff !important' },
             '& .MuiInput-underline:after': { borderBottomColor: '#fff' },
             '& input::placeholder': { color: 'rgba(255,255,255,0.7)', opacity: 1 },
           }}
