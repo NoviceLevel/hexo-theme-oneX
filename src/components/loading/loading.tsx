@@ -1,5 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import styles from './loading.less';
 
 interface LoadingProps {
@@ -8,6 +10,8 @@ interface LoadingProps {
 
 export default function Loading({ show }: LoadingProps) {
   const theme = useTheme();
+  const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
+  const loadingText = themeConfig?.uiux?.loadingText || '正在施放爆裂魔法...';
 
   if (!show) return null;
 
@@ -23,7 +27,7 @@ export default function Loading({ show }: LoadingProps) {
           Explosion!
         </Typography>
         <Typography className={styles.subtext}>
-          正在施放爆裂魔法...
+          {loadingText}
         </Typography>
       </Box>
     </Box>

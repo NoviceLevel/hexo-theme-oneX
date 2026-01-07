@@ -56,6 +56,7 @@ export default function Search() {
   const [results, setResults] = useState<Post[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { data: posts } = useSelector((state: RootState) => state.posts);
+  const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
@@ -114,7 +115,7 @@ export default function Search() {
       >
         <TextField
           fullWidth
-          placeholder="在异世界寻找..."
+          placeholder={themeConfig?.uiux?.searchPlaceholder || "在异世界寻找..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           inputRef={inputRef}

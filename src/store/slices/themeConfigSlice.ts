@@ -31,6 +31,13 @@ interface ThemeConfig {
     slogan: string | string[];
     defaultPrimaryColor: string;
     defaultAccentColor: string;
+    loading?: boolean;
+    loadingText?: string;
+    backToTop?: boolean;
+    scrollbar?: boolean;
+    toc?: boolean;
+    searchPlaceholder?: string;
+    notFoundText?: string;
   };
   comment?: {
     disqus?: {

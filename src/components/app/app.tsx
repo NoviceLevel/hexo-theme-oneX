@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Home from '../home/home';
 import Post from '../post';
 import Search from '../search';
@@ -20,17 +21,30 @@ import BackToTop from '../backToTop';
 import Header from '../header';
 import Scrollbar from '../scrollbar';
 import { createThemePalette } from '../../lib/themes';
+import { RootState, AppDispatch } from '../../store';
+import { fetchThemeConfig } from '../../store/slices/themeConfigSlice';
 import styles from './app.less';
 
 export default function App() {
+  const dispatch = useDispatch<AppDispatch>();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [primaryColor, setPrimaryColor] = useState(() => localStorage.getItem('themeColor') || 'cyan');
   const [loading, setLoading] = useState(true);
+  const themeConfig = useSelector((state: RootState) => state.themeConfig.config);
+  const showLoading = themeConfig?.uiux?.loading !== false;
 
   useEffect(() => {
+    dispatch(fetchThemeConfig());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!showLoading) {
+      setLoading(false);
+      return;
+    }
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showLoading]);
 
   const handleColorChange = (color: string) => {
     setPrimaryColor(color);
@@ -73,8 +87,8 @@ export default function App() {
         </HashRouter>
         <Footer />
       </main>
-      <BackToTop />
-      <Scrollbar />
+      {themeConfig?.uiux?.backToTop !== false && <BackToTop />}
+      {themeConfig?.uiux?.scrollbar !== false && <Scrollbar />}
     </ThemeProvider>
   );
 }

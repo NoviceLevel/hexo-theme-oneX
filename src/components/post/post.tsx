@@ -71,7 +71,7 @@ export default function Post() {
           />
         )}
       </div>
-      {isDesktop && postData?.content && (
+      {isDesktop && postData?.content && themeConfig?.uiux?.toc !== false && (
         <div className={styles.tocWrapper}>
           <Toc content={postData.content} />
         </div>
