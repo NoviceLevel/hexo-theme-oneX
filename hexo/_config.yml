@@ -7,15 +7,11 @@ head:
 
 # 图片配置
 img:
-  avatar: "https://www.loliapi.com/acg/"
-  left_pic:
-    - "https://www.loliapi.com/acg/"
-  right_pic:
-    - "https://www.loliapi.com/acg/"
-  post_thumbnail:
-    - "https://www.loliapi.com/acg/"
-  drawerHeaderBg:
-    - "https://www.loliapi.com/acg/"
+  avatar: ""
+  left_pic: []
+  right_pic: []
+  post_thumbnail: []
+  drawerHeaderBg: []
 
 # UI/UX 配置
 uiux:
@@ -30,40 +26,13 @@ comment:
 
 # 侧边栏菜单配置
 # type: sitelink (站内链接), page (独立页面), link (外部链接), hr (分隔线)
-Drawer:
-  - title: 首页
-    type: sitelink
-    href: /
-    icon: home
-  - title: hr
-    type: hr
-  - title: 搜索
-    type: sitelink
-    href: /search
-    icon: search
-  - title: 分类
-    type: sitelink
-    href: /categories
-    icon: folder
-  - title: 标签
-    type: sitelink
-    href: /tags
-    icon: label
+Drawer: []
 
 # 是否显示颜色选择器
 colorPicker: true
 
 # 首页工具栏菜单
-homeToolBar:
-  - icon: "more_vert"
-    items:
-      - title: RSS
-        type: link
-        href: /atom.xml
-        icon: rss_feed
+homeToolBar: []
 
 # 页脚配置
-footer:
-  - "Copyright © 2026 Your Name"
-  - - "标语1"
-    - "标语2"
+footer: []

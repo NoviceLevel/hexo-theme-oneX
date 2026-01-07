@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Drawer as MuiDrawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Box, useMediaQuery, Collapse, SvgIcon } from '@mui/material';
 import { useSelector } from 'react-redux';
 import HomeIcon from '@mui/icons-material/Home';
@@ -118,9 +118,9 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
     );
   };
 
-  const avatar = arrayRand(themeConfig?.img?.avatar);
-  const drawerBg = arrayRand(themeConfig?.img?.drawerHeaderBg);
-  const slogan = arrayRand(themeConfig?.uiux?.slogan);
+  const avatar = useMemo(() => arrayRand(themeConfig?.img?.avatar), [themeConfig?.img?.avatar]);
+  const drawerBg = useMemo(() => arrayRand(themeConfig?.img?.drawerHeaderBg), [themeConfig?.img?.drawerHeaderBg]);
+  const slogan = useMemo(() => arrayRand(themeConfig?.uiux?.slogan), [themeConfig?.uiux?.slogan]);
   const showColorPicker = themeConfig?.colorPicker !== false;
 
   return (

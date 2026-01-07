@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CircularProgress, Box, useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
@@ -55,10 +55,10 @@ export default function Home() {
   const displayedPosts = posts?.data || [];
   const hasMore = posts && currentPage < (posts.pageCount || 1);
 
-  const leftPic = arrayRand(themeConfig?.img?.left_pic);
-  const rightPic = arrayRand(themeConfig?.img?.right_pic);
-  const avatar = arrayRand(themeConfig?.img?.avatar);
-  const slogan = arrayRand(themeConfig?.uiux?.slogan);
+  const leftPic = useMemo(() => arrayRand(themeConfig?.img?.left_pic), [themeConfig?.img?.left_pic]);
+  const rightPic = useMemo(() => arrayRand(themeConfig?.img?.right_pic), [themeConfig?.img?.right_pic]);
+  const avatar = useMemo(() => arrayRand(themeConfig?.img?.avatar), [themeConfig?.img?.avatar]);
+  const slogan = useMemo(() => arrayRand(themeConfig?.uiux?.slogan), [themeConfig?.uiux?.slogan]);
 
   return (
     <Grid>
