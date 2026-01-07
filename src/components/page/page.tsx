@@ -45,8 +45,8 @@ export default function Page() {
 
   if (pageData?.loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 10, gap: 2 }}>
-        <CircularProgress size={24} />
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 10, gap: 2, color: '#fff' }}>
+        <CircularProgress size={24} color="inherit" />
         <span>达克妮丝正在准备...</span>
       </Box>
     );
