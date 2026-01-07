@@ -60,6 +60,32 @@ if (fs.existsSync(indexHtml)) {
   });
 }
 
-// hexo 目录已经是完整的主题，无需额外复制
-console.log('\nHexo theme build complete!');
-console.log('Theme output: hexo/');
+// hexo 目录已经是完整的主题
+// 如果存在 blog 目录（本地开发环境），则复制到 blog/themes/oneX
+const blogDir = path.resolve(__dirname, '../../blog');
+const blogThemeDir = path.resolve(blogDir, 'themes/oneX');
+
+if (fs.existsSync(blogDir)) {
+  // 递归复制目录
+  function copyDir(src, dest) {
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+      const srcPath = path.join(src, entry.name);
+      const destPath = path.join(dest, entry.name);
+      if (entry.isDirectory()) {
+        copyDir(srcPath, destPath);
+      } else {
+        fs.copyFileSync(srcPath, destPath);
+      }
+    }
+  }
+  copyDir(hexoDir, blogThemeDir);
+  console.log(`\nCopied theme to: ${blogThemeDir}`);
+} else {
+  console.log('\nTheme output: hexo/');
+}
+
+console.log('Hexo theme build complete!');
