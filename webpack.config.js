@@ -56,7 +56,10 @@ module.exports = {
     })
   ],
   devServer: {
-    static: './dist',
+    static: [
+      './dist',
+      path.resolve(__dirname, '../blog/public')
+    ],
     hot: true,
     port: 3000
   }

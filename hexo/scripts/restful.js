@@ -219,5 +219,23 @@ module.exports = function (cfg, themecfg, site) {
     }));
   }
 
+  site.pages.forEach(function (page) {
+    var slug = page.source.replace(/index\.md$/, '').replace(/\.md$/, '').replace(/\//g, '');
+    if (!slug) return;
+    var pagePath = 'api/pages/' + slug + '.json';
+    apiData.push({
+      path: pagePath,
+      data: JSON.stringify({
+        title: page.title,
+        slug: slug,
+        date: page.date,
+        updated: page.updated,
+        comments: page.comments,
+        content: page.content,
+        path: pagePath
+      })
+    });
+  });
+
   return apiData;
 };

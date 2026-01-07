@@ -7,7 +7,7 @@ import PostCard from '../postCard';
 import Toc from '../toc';
 import Comment from '../comment';
 import { RootState, AppDispatch } from '../../store';
-import { loadPost } from '../../store/slices/postSlice';
+import { loadPage } from '../../store/slices/postSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
 import { setNavTitle, setBackButton, setFullModel } from '../../store/slices/navSlice';
 import { arrayRand } from '../../lib/random';
@@ -29,7 +29,7 @@ export default function Page() {
 
   useEffect(() => {
     if (title && !pageData?.content && !pageData?.loading) {
-      dispatch(loadPost(title));
+      dispatch(loadPage(title));
     }
   }, [title, pageData, dispatch]);
 

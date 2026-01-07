@@ -70,3 +70,11 @@ export async function getCategoryPosts(name: string, href = API_BASE): Promise<P
   const data = await response.json();
   return data.postlist || data.posts || [];
 }
+
+export async function getPage(title: string, href = API_BASE): Promise<Post> {
+  const response = await fetch(`${href}/pages/${encodeURIComponent(title)}.json`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch page: ${response.statusText}`);
+  }
+  return response.json();
+}

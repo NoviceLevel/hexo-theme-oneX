@@ -62,7 +62,7 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
   const site = useSelector((state: RootState) => state.site.data);
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
 
-  const drawerItems = themeConfig?.drawer || themeConfig?.Drawer || [
+  const drawerItems = themeConfig?.Drawer || themeConfig?.drawer || [
     { title: '首页', type: 'sitelink', href: '/', icon: 'home' },
     { title: 'hr', type: 'hr' },
     { title: '搜索', type: 'sitelink', href: '/search', icon: 'search' },
@@ -76,7 +76,12 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
       return;
     }
     if (item.type === 'sitelink') {
-      window.location.hash = item.href || '/';
+      const href = item.href || '/';
+      if (href === '/' || href.startsWith('/search') || href.startsWith('/categories') || href.startsWith('/tags') || href.startsWith('/post/') || href.startsWith('/page/') || href.startsWith('/category/') || href.startsWith('/tag/')) {
+        window.location.hash = href;
+      } else {
+        window.location.hash = `/page/${item.title}`;
+      }
     } else if (item.type === 'page') {
       window.location.hash = `/page/${item.name}`;
     } else if (item.type === 'link') {
