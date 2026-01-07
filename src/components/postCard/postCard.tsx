@@ -101,7 +101,6 @@ export default function PostCard({
           )}
         </CardContent>
         <div className={styles.cardBottom}>
-          <CardHeaderAvatar title={author} avatar={avatar} />
           <Box sx={{ flexGrow: 1 }} />
           <CardContent sx={{ py: 0 }}>
             {tags.map((tag, index) => (
