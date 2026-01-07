@@ -1,6 +1,5 @@
 /**
  * Hexo RESTful API Generator
- * 将博客数据转换为 JSON API，供 SPA 主题使用
  */
 
 'use strict';

@@ -4,7 +4,6 @@ const path = require('path');
 const distDir = path.resolve(__dirname, '../dist');
 const hexoDir = path.resolve(__dirname, '../hexo');
 
-// 确保目录存在
 const dirs = [
   path.join(hexoDir, 'source'),
   path.join(hexoDir, 'layout'),
@@ -16,7 +15,6 @@ dirs.forEach((dir) => {
   }
 });
 
-// 复制所有静态资源文件到 hexo/source (js, map, 字体等)
 const distFiles = fs.readdirSync(distDir);
 const assetExtensions = ['.js', '.map', '.woff', '.woff2', '.ttf', '.eot', '.otf'];
 
@@ -28,31 +26,20 @@ distFiles.forEach((file) => {
   }
 });
 
-// 读取 index.html 并转换为 EJS 模板
 const indexHtml = path.join(distDir, 'index.html');
 if (fs.existsSync(indexHtml)) {
   let content = fs.readFileSync(indexHtml, 'utf-8');
-  
-  // 替换 title 为 Hexo 变量
   content = content.replace(/<title>.*?<\/title>/, '<title><%= config.title %></title>');
-  
-  // 添加 viewport meta 标签（如果不存在）
   if (!content.includes('viewport')) {
     content = content.replace(
       '<meta charset="UTF-8"/>',
       '<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>'
     );
   }
-  
-  // 写入 layout.ejs (主布局模板)
   fs.writeFileSync(path.join(hexoDir, 'layout', 'layout.ejs'), content);
   console.log('Created: hexo/layout/layout.ejs');
-  
-  // 写入 index.ejs (首页模板，内容为空因为 layout 已包含所有内容)
   fs.writeFileSync(path.join(hexoDir, 'layout', 'index.ejs'), '');
   console.log('Created: hexo/layout/index.ejs');
-  
-  // 创建其他必要的空模板
   const templates = ['post.ejs', 'page.ejs', 'archive.ejs', 'category.ejs', 'tag.ejs'];
   templates.forEach((tpl) => {
     fs.writeFileSync(path.join(hexoDir, 'layout', tpl), '');
@@ -60,13 +47,10 @@ if (fs.existsSync(indexHtml)) {
   });
 }
 
-// hexo 目录已经是完整的主题
-// 如果存在 blog 目录（本地开发环境），则复制到 blog/themes/oneX
 const blogDir = path.resolve(__dirname, '../../blog');
 const blogThemeDir = path.resolve(blogDir, 'themes/oneX');
 
 if (fs.existsSync(blogDir)) {
-  // 递归复制目录
   function copyDir(src, dest) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true });
