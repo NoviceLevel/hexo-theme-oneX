@@ -19,6 +19,7 @@ interface MenuProps {
 export default function Menu({ onMenuClick }: MenuProps) {
   const [opacity, setOpacity] = useState(0);
   const [hidden, setHidden] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const lastScrollTop = useRef(0);
   const theme = useTheme();
   const headerHeight = 228;
@@ -32,7 +33,12 @@ export default function Menu({ onMenuClick }: MenuProps) {
     if (fullModel) {
       setOpacity(1);
       setHidden(false);
-      return;
+      const handleScrollTop = () => {
+        setAtTop(window.scrollY < 10);
+      };
+      handleScrollTop();
+      window.addEventListener('scroll', handleScrollTop, { passive: true });
+      return () => window.removeEventListener('scroll', handleScrollTop);
     }
 
     let ticking = false;
@@ -42,6 +48,7 @@ export default function Menu({ onMenuClick }: MenuProps) {
       requestAnimationFrame(() => {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const threshold = headerHeight - appBarHeight;
+        setAtTop(scrollTop < 10);
         
         if (scrollTop < threshold) {
           setOpacity(0);
@@ -68,7 +75,7 @@ export default function Menu({ onMenuClick }: MenuProps) {
   }, [fullModel]);
 
   const backgroundColor = hexToRgba(theme.palette.primary.main, fullModel ? 1 : opacity);
-  const shadowOpacity = 0.117647 * (fullModel ? 1 : opacity);
+  const shadowOpacity = atTop ? 0 : 0.117647 * (fullModel ? 1 : opacity);
 
   const handleSearchClick = () => {
     window.location.hash = '/search';
@@ -93,7 +100,7 @@ export default function Menu({ onMenuClick }: MenuProps) {
         sx={{
           backgroundColor,
           boxShadow: `0px 1px 6px rgba(0, 0, 0, ${shadowOpacity}), 0px 1px 4px rgba(0, 0, 0, ${shadowOpacity})`,
-          transition: 'top 0.3s ease',
+          transition: 'top 0.3s ease, box-shadow 0.3s ease',
           top: hidden ? -appBarHeight : 0,
         }}
       >

@@ -30,7 +30,7 @@ export default function Footer() {
             <Link href="https://hexo.io" target="_blank" color="inherit" underline="hover">Hexo</Link>
             <br />
             <span>Theme - </span>
-            <Link href="https://github.com/user/hexo-theme-oneX" target="_blank" color="inherit" underline="hover">oneX</Link>
+            <Link href="https://github.com/NoviceLevel/hexo-theme-oneX" target="_blank" color="inherit" underline="hover">oneX</Link>
           </Typography>
           <Typography component="span" className={styles.s2}>{copyright}</Typography>
           <Typography component="p" className={styles.s3}>{slogan}</Typography>
