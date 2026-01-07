@@ -1,6 +1,4 @@
 node_modules/
 dist/
-hexo/source/
-hexo/layout/
 *.log
 .DS_Store
