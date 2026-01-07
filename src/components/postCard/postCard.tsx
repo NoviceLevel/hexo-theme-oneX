@@ -67,6 +67,12 @@ export default function PostCard({
   const handleMenuClick = (event: MouseEvent<HTMLElement>) => setMenuAnchor(event.currentTarget);
   const handleClose = () => { setShareAnchor(null); setMenuAnchor(null); };
 
+  const handleCopyLink = () => {
+    const url = `${window.location.origin}${window.location.pathname}#/post/${link}`;
+    navigator.clipboard.writeText(url);
+    handleClose();
+  };
+
   const imageClassName = isDetailView ? styles.cardImageDetail : styles.cardImage;
 
   return (
@@ -101,6 +107,7 @@ export default function PostCard({
           )}
         </CardContent>
         <div className={styles.cardBottom}>
+          {!isDetailView && <CardHeaderAvatar avatar={avatar} title={author} />}
           <Box sx={{ flexGrow: 1 }} />
           <CardContent sx={{ py: 0 }}>
             {tags.map((tag, index) => (
@@ -126,8 +133,7 @@ export default function PostCard({
             anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           >
-            <MenuItem onClick={handleClose}>分享到微博</MenuItem>
-            <MenuItem onClick={handleClose}>复制链接</MenuItem>
+            <MenuItem onClick={handleCopyLink}>复制链接</MenuItem>
           </Menu>
           <IconButton onClick={handleMenuClick}><MoreVertIcon /></IconButton>
           <Menu
