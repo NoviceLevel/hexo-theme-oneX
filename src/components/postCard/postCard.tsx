@@ -47,7 +47,14 @@ export default function PostCard({
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const displayImage = cover || imageUrl || 'https://www.loliapi.com/acg/';
+  const getDisplayImage = () => {
+    const img = cover || imageUrl || 'https://www.loliapi.com/acg/';
+    if (img.includes('loliapi.com') || img.includes('api.') || img.includes('/random')) {
+      return `${img}${img.includes('?') ? '&' : '?'}id=${encodeURIComponent(link || title || Date.now().toString())}`;
+    }
+    return img;
+  };
+  const displayImage = getDisplayImage();
   const isDetailView = !!content;
 
   useEffect(() => {

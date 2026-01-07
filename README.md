@@ -58,69 +58,128 @@ theme: oneX
 在博客根目录创建 `_config.oneX.yml`：
 
 ```yaml
+# 网站头部配置
+head:
+    # 网站图标 (favicon)
+    favicon: "https://example.com/favicon.ico"
+
 # 图片配置
 img:
-  avatar:
-    - /img/avatar.jpg
-  drawerHeaderBg:
-    - /img/header-bg.jpg
-  post_thumbnail:
-    - https://www.loliapi.com/acg/
+    # 头像图片，显示在首页欢迎卡片和文章卡片中
+    avatar: "/img/avatar.png"
+    # 首页左侧大图（欢迎卡片背景）
+    left_pic: 
+      - "/img/home.png"
+    # 首页右侧 Logo 卡片图片
+    right_pic:
+      - "/img/right_pic.jpg"
+    # 文章缩略图，支持多个随机显示
+    post_thumbnail: 
+      - "https://www.loliapi.com/acg/"
+    # 侧边栏头部背景图
+    drawerHeaderBg:
+      - "/img/header-bg.jpg"
 
 # UI/UX 配置
 uiux:
-  slogan:
-    - 为美好的世界献上祝福！
+    # 首页欢迎语，支持多个随机显示
+    slogan: "为美好的世界献上祝福！"
+    # 默认主题色（可选值见下方主题颜色表）
+    defaultPrimaryColor: "aqua"
+    # 默认强调色
+    defaultAccentColor: "megumin"
 
-# 侧边栏菜单
+# 评论系统配置
+comment:
+    # Disqus 评论
+    disqus:
+        # Disqus shortname
+        shortName: "your-disqus-shortname"
+
+# 侧边栏菜单配置
+# type 类型说明:
+#   - sitelink: 站内链接，使用 href 指定路径
+#   - page: 独立页面，使用 name 指定页面 slug（如 about）
+#   - link: 外部链接，使用 href 指定完整 URL
+#   - hr: 分隔线
+# icon: Material Icons 图标名称
 Drawer:
-  - title: 首页
-    type: sitelink
-    href: /
-    icon: home
-  - title: hr
-    type: hr
-  - title: 搜索
-    type: sitelink
-    href: /search
-    icon: search
-  - title: 分类
-    type: sitelink
-    href: /categories
-    icon: folder
-  - title: 标签
-    type: sitelink
-    href: /tags
-    icon: label
+    - title: 首页
+      type: sitelink
+      href: /
+      icon: home
+    - title: hr
+      type: hr
+    - title: 关于我
+      type: page
+      name: about
+      icon: account_circle
+    - title: 搜索
+      type: sitelink
+      href: /search/
+      icon: search
+    - title: 分类
+      type: sitelink
+      href: /categories
+      icon: folder
+    - title: 标签
+      type: sitelink
+      href: /tags
+      icon: label
 
-# 首页工具栏
+# 是否显示颜色选择器
+colorPicker: true
+
+# 首页工具栏菜单
 homeToolBar:
-  - icon: more_vert
+  - icon: "more_vert"
     items:
       - title: RSS
         type: link
         href: /atom.xml
         icon: rss_feed
 
-# 颜色选择器
-colorPicker: true
-
-# Disqus 评论
-disqus:
-  shortname: your-disqus-shortname
+# 页脚配置
+# 第一项为版权信息，第二项为随机显示的标语（数组）
+footer:
+  - "Copyright © 2026 Your Name"
+  - - "标语1"
+    - "标语2"
+    - "标语3"
 ```
 
-### 5. 生成并启动博客
+### 5. 创建独立页面（可选）
+
+如需创建"关于我"等独立页面：
+
+```bash
+hexo new page about
+```
+
+编辑 `source/about/index.md`：
+
+```markdown
+---
+title: 关于我
+date: 2026-01-01 00:00:00
+---
+
+这里是关于我的内容...
+```
+
+### 6. 生成并启动博客
 
 ```bash
 hexo generate
 hexo server
 ```
 
-## 开发
+注意：修改 `_config.oneX.yml` 后需要重新运行 `hexo generate` 才能生效。
+
+## 开发模式
 
 ```bash
-# 安装依赖
+# 在 hexo-theme-oneX 目录
 pnpm install
 
 # 构建主题
@@ -128,6 +187,10 @@ pnpm build
 
 # 构建并复制到 hexo 目录
 pnpm build && node scripts/build-hexo.js
+
+# 开发服务器（需要先在 blog 目录运行 hexo generate）
+pnpm start
+# 访问 http://localhost:3000
 ```
 
 ## 主题颜色
