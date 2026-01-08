@@ -1,10 +1,10 @@
 # hexo-theme-oneX
 
-基于 [hexo-theme-one](https://github.com/EYHN/hexo-theme-one) 使用现代技术栈重构的 Hexo 主题。
+基于 [hexo-theme-one](https://github.com/EYHN/hexo-theme-one)Hexo 主题。
 
 ## 预览
 
-![preview](https://www.loliapi.com/acg/)
+![preview](https://youke3.picui.cn/s1/2026/01/08/695fcadccde83.png)
 
 ## 功能特性
 
