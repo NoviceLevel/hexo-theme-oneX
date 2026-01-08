@@ -22,7 +22,6 @@ distFiles.forEach((file) => {
   const ext = path.extname(file).toLowerCase();
   if (assetExtensions.includes(ext)) {
     fs.copyFileSync(path.join(distDir, file), path.join(hexoDir, 'source', file));
-    console.log(`Copied: ${file} -> hexo/source/`);
   }
 });
 
@@ -37,13 +36,10 @@ if (fs.existsSync(indexHtml)) {
     );
   }
   fs.writeFileSync(path.join(hexoDir, 'layout', 'layout.ejs'), content);
-  console.log('Created: hexo/layout/layout.ejs');
   fs.writeFileSync(path.join(hexoDir, 'layout', 'index.ejs'), '');
-  console.log('Created: hexo/layout/index.ejs');
   const templates = ['post.ejs', 'page.ejs', 'archive.ejs', 'category.ejs', 'tag.ejs'];
   templates.forEach((tpl) => {
     fs.writeFileSync(path.join(hexoDir, 'layout', tpl), '');
-    console.log(`Created: hexo/layout/${tpl}`);
   });
 }
 
@@ -67,9 +63,4 @@ if (fs.existsSync(blogDir)) {
     }
   }
   copyDir(hexoDir, blogThemeDir);
-  console.log(`\nCopied theme to: ${blogThemeDir}`);
-} else {
-  console.log('\nTheme output: hexo/');
 }
-
-console.log('Hexo theme build complete!');
