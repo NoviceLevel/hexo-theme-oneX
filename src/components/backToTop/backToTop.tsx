@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Fab, Zoom } from '@mui/material';
+import { Fab, Zoom, useMediaQuery } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { useTheme } from '@mui/material/styles';
 
@@ -8,6 +8,7 @@ export default function BackToTop() {
   const [bottomOffset, setBottomOffset] = useState(24);
   const theme = useTheme();
   const footerHeight = useRef(100);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,16 +20,20 @@ export default function BackToTop() {
       }
       
       const scrollBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
-      if (scrollBottom < footerHeight.current + 60) {
-        setBottomOffset(footerHeight.current - scrollBottom + 60);
+      const threshold = isMobile ? footerHeight.current + 16 : footerHeight.current + 60;
+      const baseOffset = isMobile ? 12 : 24;
+      
+      if (scrollBottom < threshold) {
+        setBottomOffset(footerHeight.current - scrollBottom + (isMobile ? 16 : 60));
       } else {
-        setBottomOffset(24);
+        setBottomOffset(baseOffset);
       }
     };
     
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -42,7 +47,7 @@ export default function BackToTop() {
         sx={{
           position: 'fixed',
           bottom: bottomOffset,
-          right: 24,
+          right: isMobile ? 16 : 24,
           zIndex: 1000,
           backgroundColor: theme.palette.primary.main + '20',
           color: theme.palette.primary.main,
