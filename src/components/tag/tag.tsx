@@ -68,7 +68,6 @@ export default function Tag() {
           <PostCard
             key={post.slug}
             title={post.title}
-            excerpt={post.excerpt}
             link={post.slug}
             date={post.date}
             author={site?.author || '作者'}

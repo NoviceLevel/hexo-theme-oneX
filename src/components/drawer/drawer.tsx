@@ -75,13 +75,9 @@ export default function Drawer({ open, onClose, primaryColor, onColorChange }: D
       setOpenItems(prev => ({ ...prev, [item.title]: !prev[item.title] }));
       return;
     }
+    
     if (item.type === 'sitelink') {
-      const href = item.href || '/';
-      if (href === '/' || href.startsWith('/search') || href.startsWith('/categories') || href.startsWith('/tags') || href.startsWith('/post/') || href.startsWith('/page/') || href.startsWith('/category/') || href.startsWith('/tag/')) {
-        window.location.hash = href;
-      } else {
-        window.location.hash = `/page/${item.title}`;
-      }
+      window.location.hash = item.href || '/';
     } else if (item.type === 'page') {
       window.location.hash = `/page/${item.name}`;
     } else if (item.type === 'link') {

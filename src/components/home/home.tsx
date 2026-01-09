@@ -76,7 +76,6 @@ export default function Home() {
         <PostCard
           key={post.slug}
           title={post.title}
-          excerpt={post.excerpt}
           link={post.slug}
           date={post.date}
           author={site?.author || '作者'}

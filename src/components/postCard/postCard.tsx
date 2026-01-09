@@ -14,7 +14,6 @@ import styles from './postCard.less';
 
 interface PostCardProps {
   title?: string;
-  excerpt?: string;
   imageUrl?: string;
   cover?: string;
   author?: string;
@@ -26,13 +25,8 @@ interface PostCardProps {
   date?: string;
 }
 
-function removeHTMLTag(str: string) {
-  return str.replace(/<\/?[^>]*>/g, '').replace(/[ | ]*\n/g, '\n').replace(/&nbsp;/ig, '');
-}
-
 export default function PostCard({
   title,
-  excerpt,
   imageUrl,
   cover,
   author = '作者',
@@ -84,9 +78,7 @@ export default function PostCard({
               <div className={imageClassName} style={{ backgroundImage: `url(${displayImage})` }}>
                 {link && <Link href={`#/post/${link}`} className={styles.link} />}
                 <Box className={styles.overlay}>
-                  <Typography variant="h5" component="h2" color="white">
-                    {title}
-                  </Typography>
+                  <Typography variant="h5" component="h2" color="white">{title}</Typography>
                   {date && (
                     <Typography variant="body2" color="rgba(255,255,255,0.7)">
                       {new Date(date).toLocaleDateString()}
@@ -97,30 +89,26 @@ export default function PostCard({
             )}
           </div>
         </div>
-        <CardContent>
-          {isDetailView ? (
+        {isDetailView && (
+          <CardContent>
             <div ref={contentRef} className={styles.postContent} />
-          ) : (
-            <Typography variant="body2" color="text.secondary">
-              {excerpt ? removeHTMLTag(excerpt) : ''}
-            </Typography>
-          )}
-        </CardContent>
+          </CardContent>
+        )}
         <div className={styles.cardBottom}>
           {!isDetailView && <CardHeaderAvatar avatar={avatar} title={author} />}
           <Box sx={{ flexGrow: 1 }} />
           <CardContent sx={{ py: 0 }}>
-            {tags.map((tag, index) => (
+            {tags.map((tag, i) => (
               <span key={tag.name}>
                 <Link href={`#/tag/${encodeURIComponent(tag.name)}`} underline="hover">{tag.name}</Link>
-                {index < tags.length - 1 && ' '}
+                {i < tags.length - 1 && ' '}
               </span>
             ))}
             {tags.length > 0 && categories.length > 0 && ' | '}
-            {categories.map((cat, index) => (
+            {categories.map((cat, i) => (
               <span key={cat.name}>
                 <Link href={`#/category/${encodeURIComponent(cat.name)}`} underline="hover">{cat.name}</Link>
-                {index < categories.length - 1 && ' '}
+                {i < categories.length - 1 && ' '}
               </span>
             ))}
           </CardContent>
