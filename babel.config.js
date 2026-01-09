@@ -1,7 +1,13 @@
 module.exports = {
   presets: [
     ['@babel/preset-env', {
-      targets: '> 0.25%, not dead',
+      targets: {
+        ios: '13',
+        safari: '13',
+        chrome: '70',
+        firefox: '70',
+        edge: '79'
+      },
       useBuiltIns: 'usage',
       corejs: 3
     }],
