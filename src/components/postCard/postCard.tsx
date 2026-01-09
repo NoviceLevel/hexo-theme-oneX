@@ -4,7 +4,6 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -38,7 +37,6 @@ export default function PostCard({
   date,
 }: PostCardProps) {
   const [shareAnchor, setShareAnchor] = useState<null | HTMLElement>(null);
-  const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   const getDisplayImage = () => {
@@ -58,8 +56,7 @@ export default function PostCard({
   }, [content]);
 
   const handleShareClick = (event: MouseEvent<HTMLElement>) => setShareAnchor(event.currentTarget);
-  const handleMenuClick = (event: MouseEvent<HTMLElement>) => setMenuAnchor(event.currentTarget);
-  const handleClose = () => { setShareAnchor(null); setMenuAnchor(null); };
+  const handleClose = () => setShareAnchor(null);
 
   const handleCopyLink = () => {
     const url = `${window.location.origin}${window.location.pathname}#/post/${link}`;
@@ -122,17 +119,6 @@ export default function PostCard({
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           >
             <MenuItem onClick={handleCopyLink}>复制链接</MenuItem>
-          </Menu>
-          <IconButton onClick={handleMenuClick}><MoreVertIcon /></IconButton>
-          <Menu
-            anchorEl={menuAnchor}
-            open={Boolean(menuAnchor)}
-            onClose={handleClose}
-            disableScrollLock
-            anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-            transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          >
-            <MenuItem onClick={handleClose}>RSS</MenuItem>
           </Menu>
         </div>
       </div>

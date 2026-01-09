@@ -20,6 +20,7 @@ import Footer from '../footer';
 import BackToTop from '../backToTop';
 import Header from '../header';
 import Scrollbar from '../scrollbar';
+import ScrollToTop from '../scrollToTop';
 import { createThemePalette } from '../../lib/themes';
 import { RootState, AppDispatch } from '../../store';
 import { fetchThemeConfig } from '../../store/slices/themeConfigSlice';
@@ -73,6 +74,7 @@ export default function App() {
       />
       <main className={styles.main}>
         <HashRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/post/:slug" element={<Post />} />
