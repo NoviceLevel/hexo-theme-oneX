@@ -4,6 +4,12 @@
   composes: card from '../card/card.less';
   composes: cardWithImg from '../card/card.less';
   width: calc(100% - 16px);
+  @media (max-width: @screen-sm-min) {
+    width: calc(100% + 32px);
+    margin-left: -16px;
+    margin-right: -16px;
+    border-radius: 0;
+  }
 }
 
 .cardImage {
