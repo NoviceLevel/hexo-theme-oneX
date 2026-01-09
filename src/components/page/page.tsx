@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { CircularProgress, Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
 import PostCard from '../postCard';
 import Toc from '../toc';
 import Comment from '../comment';
+import Loading from '../loading';
 import { RootState, AppDispatch } from '../../store';
 import { loadPage } from '../../store/slices/postSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
@@ -44,12 +45,7 @@ export default function Page() {
   if (!title) return null;
 
   if (pageData?.loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 10, gap: 2, color: '#fff' }}>
-        <CircularProgress size={24} color="inherit" />
-        <span>达克妮丝正在准备...</span>
-      </Box>
-    );
+    return <Loading inline text="达克妮丝正在准备..." />;
   }
 
   const pageUrl = site?.url ? `${site.url}/page/${title}` : undefined;

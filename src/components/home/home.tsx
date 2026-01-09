@@ -1,11 +1,12 @@
 import { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { CircularProgress, Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import Grid from '../grid/grid';
 import WelcomeCard from '../welcomeCard/welcomeCard';
 import LogoCard from '../logoCard';
 import PostCard from '../postCard';
 import DisplayTrigger from '../displayTrigger';
+import Loading from '../loading';
 import { RootState, AppDispatch } from '../../store';
 import { fetchPosts, appendPosts } from '../../store/slices/postsSlice';
 import { addBackgroundImage } from '../../store/slices/backgroundSlice';
@@ -84,12 +85,7 @@ export default function Home() {
         />
       ))}
       <DisplayTrigger onDisplay={loadMore} className={styles.Loading}>
-        {(loading || hasMore) && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', py: 4, gap: 2, width: '100%' }}>
-            <CircularProgress size={24} />
-            <span>阿克娅正在努力中...</span>
-          </Box>
-        )}
+        {(loading || hasMore) && <Loading inline text="阿克娅正在努力中..." />}
       </DisplayTrigger>
     </Grid>
   );
